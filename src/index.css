@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Newspaper-inspired color palette */
+    --background: 42 28% 96%;
+    --foreground: 0 0% 10%;
+
+    --card: 40 20% 98%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 40 20% 98%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 210 70% 38%;
+    --primary-foreground: 40 25% 98%;
+
+    --secondary: 36 18% 88%;
+    --secondary-foreground: 0 0% 15%;
+
+    --muted: 36 15% 92%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 38 25% 85%;
+    --accent-foreground: 0 0% 15%;
+
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 40 25% 98%;
+
+    --border: 36 18% 82%;
+    --input: 36 18% 88%;
+    --ring: 210 70% 38%;
+
+    --radius: 0.25rem;
+    
+    /* Custom newspaper tokens */
+    --paper: 42 28% 96%;
+    --ink: 0 0% 10%;
+    --divider: 0 0% 75%;
+    --vintage-accent: 36 40% 75%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 12%;
+    --foreground: 40 25% 95%;
+
+    --card: 0 0% 15%;
+    --card-foreground: 40 25% 95%;
+
+    --popover: 0 0% 15%;
+    --popover-foreground: 40 25% 95%;
+
+    --primary: 210 70% 55%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 40 25% 95%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 0 0% 22%;
+    --accent-foreground: 40 25% 95%;
+
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 40 25% 95%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 22%;
+    --ring: 210 70% 55%;
+    
+    --paper: 0 0% 15%;
+    --ink: 40 25% 95%;
+    --divider: 0 0% 30%;
+    --vintage-accent: 36 30% 40%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-serif;
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        hsl(var(--paper)) 1px,
+        hsl(var(--paper)) 2px
+      );
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .newspaper-border {
+    border-top: 2px solid hsl(var(--ink));
+    border-bottom: 1px solid hsl(var(--divider));
+  }
+  
+  .vintage-shadow {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
