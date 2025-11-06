@@ -1,15 +1,22 @@
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
 
   const navLinks = [
     { name: "Inicio", href: "#inicio" },
-    { name: "Productos", href: "#productos" },
     { name: "Nosotros", href: "#nosotros" },
     { name: "Contacto", href: "#contacto" },
+  ];
+
+  const productLinks = [
+    { name: "Papel Higiénico", href: "/productos#papel-higienico" },
+    { name: "Servilletas", href: "/productos#servilletas" },
+    { name: "Papel Toalla", href: "/productos#papel-toalla" },
+    { name: "Ver Todos", href: "/productos" },
   ];
 
   return (
@@ -31,6 +38,32 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
+            
+            {/* Products Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsProductsDropdownOpen(true)}
+              onMouseLeave={() => setIsProductsDropdownOpen(false)}
+            >
+              <button className="flex items-center gap-1 text-foreground hover:text-primary font-body text-sm font-medium tracking-wide transition-colors uppercase">
+                Productos
+                <ChevronDown size={16} className={`transition-transform duration-200 ${isProductsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isProductsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border shadow-lg rounded-md z-50">
+                  {productLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-3 text-foreground hover:text-primary hover:bg-muted transition-colors font-body text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -57,6 +90,31 @@ const Navbar = () => {
                   {link.name}
                 </a>
               ))}
+              
+              {/* Mobile Products Section */}
+              <div>
+                <button 
+                  onClick={() => setIsProductsDropdownOpen(!isProductsDropdownOpen)}
+                  className="flex items-center justify-between w-full text-foreground hover:text-primary font-body text-sm font-medium tracking-wide transition-colors uppercase"
+                >
+                  Productos
+                  <ChevronDown size={16} className={`transition-transform duration-200 ${isProductsDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isProductsDropdownOpen && (
+                  <div className="ml-4 mt-2 flex flex-col gap-2">
+                    {productLinks.map((link) => (
+                      <a
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="text-muted-foreground hover:text-primary font-body text-sm transition-colors"
+                      >
+                        {link.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

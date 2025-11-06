@@ -63,6 +63,16 @@ const Products = () => {
             </Card>
           ))}
         </div>
+
+        {/* Ver más button */}
+        <div className="text-center mt-12">
+          <a
+            href="/productos"
+            className="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-body font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
+            Ver más productos
+          </a>
+        </div>
       </div>
     </section>
   );
