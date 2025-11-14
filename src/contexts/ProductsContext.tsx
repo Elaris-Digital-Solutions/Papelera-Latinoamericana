@@ -1,7 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import papelJumboImg from "@/assets/papel-jumbo-landing.png";
-import papelToallaImg from "@/assets/papel-toalla-landing.png";
-import ServilletaImg from "@/assets/servilleta-clasica-landing.png";
 
 export interface Product {
   id: string;
@@ -26,7 +23,7 @@ const ProductsContext = createContext<ProductsContextType | undefined>(undefined
 const initialProducts: Product[] = [
   {
     id: "papel-higienico",
-    image: papelJumboImg,
+    image: "placeholder.jpg",
     name: "Papel Higiénico Premium",
     description: "Rollos de papel higiénico premium con suavidad excepcional. Disponibles en presentaciones individuales y paquetes mayoristas para uso doméstico y comercial.",
     features: ["Ultra suave y resistente", "Alta absorción", "100% biodegradable", "Presentaciones múltiples"],
@@ -35,7 +32,7 @@ const initialProducts: Product[] = [
   },
   {
     id: "papel-higienico-jumbo",
-    image: papelJumboImg,
+    image: "placeholder.jpg",
     name: "Papel Higiénico Jumbo",
     description: "Rollos de gran tamaño especialmente diseñados para uso comercial e institucional. Máxima durabilidad y rendimiento económico.",
     features: ["Mayor rendimiento por rollo", "Ideal para uso comercial", "Compatible con dispensadores", "Excelente relación precio-calidad"],
@@ -44,7 +41,7 @@ const initialProducts: Product[] = [
   },
   {
     id: "servilletas",
-    image: ServilletaImg,
+    image: "placeholder.jpg",
     name: "Servilletas Clásicas",
     description: "Servilletas de papel de alta calidad en diversos colores y tamaños. Perfectas para restaurantes, eventos y uso doméstico.",
     features: ["Variedad de colores", "Diferentes tamaños disponibles", "Resistentes y absorbentes", "Absorción rápida"],
@@ -53,7 +50,7 @@ const initialProducts: Product[] = [
   },
   {
     id: "servilletas-premium",
-    image: ServilletaImg,
+    image: "placeholder.jpg",
     name: "Servilletas Premium",
     description: "Servilletas de lujo con diseños elegantes y texturas especiales, perfectas para eventos especiales y establecimientos de alta gama.",
     features: ["Diseños exclusivos", "Textura premium suave", "Colores elegantes", "Presentación especial"],
@@ -62,7 +59,7 @@ const initialProducts: Product[] = [
   },
   {
     id: "papel-toalla",
-    image: papelToallaImg,
+    image: "placeholder.jpg",
     name: "Papel Toalla Multiusos",
     description: "Toallas de papel ultra absorbentes y resistentes, ideales para cocina, limpieza y múltiples usos domésticos y comerciales.",
     features: ["Ultra absorbente", "Resistente en húmedo", "Multiusos versátil", "Dispensado fácil"],
@@ -71,7 +68,7 @@ const initialProducts: Product[] = [
   },
   {
     id: "papel-toalla-industrial",
-    image: papelToallaImg,
+    image: "placeholder.jpg",
     name: "Papel Toalla Industrial",
     description: "Toallas de papel de grado industrial para uso profesional intensivo. Máxima resistencia y capacidad de absorción.",
     features: ["Grado industrial", "Super resistente", "Alto rendimiento", "Uso profesional intensivo"],

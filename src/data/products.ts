@@ -1,0 +1,58 @@
+const products = [
+  {
+    id: "rojo-doble-hoja-economico",
+    name: "Rojo Doble Hoja Económico",
+    category: "Papel institucional",
+    description: "Papel institucional de doble hoja, ideal para uso económico y eficiente.",
+    specifications: null,
+    presentation: "Paquete de 500 hojas, doble hoja.",
+    image: "/src/assets/rojo doble hoja economico.jpg",
+  },
+  {
+    id: "naranja-doble-hoja",
+    name: "Naranja Doble Hoja",
+    category: "Papel institucional",
+    description: "Papel institucional de doble hoja, resistente y de alta calidad.",
+    specifications: null,
+    presentation: "Paquete de 500 hojas, doble hoja.",
+    image: "/src/assets/naranja doble hoja.jpg",
+  },
+  {
+    id: "papel-gofrado",
+    name: "Papel Gofrado",
+    category: "Papel institucional",
+    description: "Papel institucional con textura gofrada, ideal para un acabado elegante.",
+    specifications: null,
+    presentation: "Paquete de 500 hojas, textura gofrada.",
+    image: "/src/assets/papel gofrado.jpg",
+  },
+  {
+    id: "papel-individual",
+    name: "Papel Individual",
+    category: "Papel institucional",
+    description: "Papel institucional individual, práctico y versátil para diferentes usos.",
+    specifications: null,
+    presentation: "Paquete de 500 hojas, individual.",
+    image: "/src/assets/papel individual.jpg",
+  },
+  {
+    id: "papel-500",
+    name: "Papel 500",
+    category: "Papel institucional",
+    description: "Papel institucional de alta calidad, ideal para oficinas y uso diario.",
+    specifications: null,
+    presentation: "Paquete de 500 hojas.",
+    image: "/src/assets/papel 500.jpg",
+  },
+  {
+    id: "papel-550",
+    name: "Papel 550",
+    category: "Papel institucional",
+    description: "Papel institucional con mayor cantidad de hojas, ideal para grandes consumos.",
+    specifications: null,
+    presentation: "Paquete de 550 hojas.",
+    image: "/src/assets/papel 550.jpg",
+  },
+];
+
+export default products;

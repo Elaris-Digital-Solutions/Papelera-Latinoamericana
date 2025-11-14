@@ -1,25 +1,25 @@
 import { Card, CardContent } from "@/components/ui/card";
-import notebooksImg from "@/assets/product-notebooks.jpg";
-import pensImg from "@/assets/product-pens.jpg";
-import suppliesImg from "@/assets/product-supplies.jpg";
-import papelJumboImg from "@/assets/papel-jumbo-landing.png";
-import papelToallaImg from "@/assets/papel-toalla-landing.png";
-import ServilletaImg from "@/assets/servilleta-clasica-landing.png";
+// import notebooksImg from "@/assets/product-notebooks.jpg";
+// import pensImg from "@/assets/product-pens.jpg";
+// import suppliesImg from "@/assets/product-supplies.jpg";
+import papelJumboImg from "placeholder.jpg";
+import papelToallaImg from "placeholder.jpg";
+import ServilletaImg from "placeholder.jpg";
 
 
 const products = [
   {
-    image: papelJumboImg,
+    image: "placeholder.jpg",
     name: "Papel Higiénico",
     description: "Rollos de papel higiénico premium con suavidad excepcional. Disponibles en presentaciones individuales y paquetes mayoristas.",
   },
   {
-    image: ServilletaImg,
+    image: "placeholder.jpg",
     name: "Servilletas",
     description: "Servilletas de papel de alta calidad en diversos colores y tamaños. Ideales para restaurantes, eventos y hogares.",
   },
   {
-    image: papelToallaImg,
+    image: "placeholder.jpg",
     name: "Papel Toalla",
     description: "Toallas de papel absorbentes y resistentes para cocina y limpieza. Presentaciones en rollo y paquetes múltiples.",
   },
