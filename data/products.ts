@@ -1,14 +1,12 @@
 type ProductSpecs = Record<string, string>;
 
 export type Product = {
-  id: string;
   name: string;
   slug: string;
   category: string;
   image: string;
   description: string;
   specs: ProductSpecs;
-  presentation: string;
 };
 
 export type ProductCategory = {
@@ -38,9 +36,6 @@ const toTitleCase = (value: string): string =>
       return segment.charAt(0).toUpperCase() + segment.slice(1);
     })
     .join(" ");
-
-const createImagePath = (fileName: string) =>
-  new URL(`../assets/${fileName}`, import.meta.url).href;
 
 const assetFileNames: Record<string, string> = {
   "rojo-doble-hoja-economico": "ROJO-DOBLE-HOJA-ECONOMICO.jpeg",
@@ -115,7 +110,7 @@ const assetFileNames: Record<string, string> = {
 
 const descriptionsByCategory: Record<string, string> = {
   "Papel institucional":
-    "Diseñado para instituciones que necesitan rendimiento constante, absorción eficiente y una sensación confiable en cada uso diario.",
+    "Fabricado para instituciones que necesitan rendimiento constante, absorción eficiente y una sensación confiable en cada uso diario.",
   "Papel toalla":
     "Soluciones de alta absorción para cocinas y servicios que buscan suavidad sin sacrificar resistencia.",
   "Servilletas blancas":
@@ -219,28 +214,20 @@ const catalog: Record<string, string[]> = {
   ],
 };
 
-const defaultPresentation = "Consultar formatos y presentaciones con el equipo comercial.";
-
 const createProduct = (name: string, category: string): Product => {
   const slug = slugify(name);
   const assetFile = assetFileNames[slug];
   const title = toTitleCase(name);
-  const imagePath = assetFile
-    ? createImagePath(assetFile)
-    : new URL("../assets/hero-stationery.jpg", import.meta.url).href;
-  const baseDescription =
-    descriptionsByCategory[category] ??
-    "Diseñado para reforzar la experiencia de tu mesa profesional.";
+  const imagePath = assetFile ? `/src/assets/${assetFile}` : `/src/assets/${title.toUpperCase()}.jpeg`;
+  const baseDescription = descriptionsByCategory[category] ?? "Diseñado para reforzar la experiencia de tu mesa profesional.";
 
   return {
-    id: slug,
     name: title,
     slug,
     category,
     image: imagePath,
     description: `${title} pertenece a la categoría ${category}. ${baseDescription}`,
     specs: {},
-    presentation: defaultPresentation,
   };
 };
 
@@ -265,7 +252,7 @@ export const products: Product[] = categories.flatMap((category) => category.pro
 
 const productIndex = new Map(products.map((product) => [product.slug, product]));
 
-export const getProductById = (slug: string): Product | undefined => productIndex.get(slug);
+export const getProductBySlug = (slug: string): Product | undefined => productIndex.get(slug);
 
 export const searchProducts = (query: string, category?: string): Product[] => {
   const normalizedQuery = query.trim().toLowerCase();
@@ -282,10 +269,11 @@ export const searchProducts = (query: string, category?: string): Product[] => {
 };
 
 export const categoryFilters = [
-  { label: "Todos", value: "all" },
+  { label: "Todas", value: "all" },
   ...categories.map((category) => ({ label: category.name, value: category.slug })),
 ];
 
 export type ProductsCatalog = typeof categories;
 
-export default products;
+export default categories;
+

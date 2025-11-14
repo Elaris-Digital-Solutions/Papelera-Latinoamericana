@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { products as catalogProducts, Product as CatalogProduct } from "@/data/products";
 
 export interface Product {
   id: string;
@@ -20,79 +21,84 @@ interface ProductsContextType {
 
 const ProductsContext = createContext<ProductsContextType | undefined>(undefined);
 
-const initialProducts: Product[] = [
-  {
-    id: "papel-higienico",
-    image: "placeholder.jpg",
-    name: "Papel Higiénico Premium",
-    description: "Rollos de papel higiénico premium con suavidad excepcional. Disponibles en presentaciones individuales y paquetes mayoristas para uso doméstico y comercial.",
-    features: ["Ultra suave y resistente", "Alta absorción", "100% biodegradable", "Presentaciones múltiples"],
-    category: "Higiene Personal",
-    visible: true
-  },
-  {
-    id: "papel-higienico-jumbo",
-    image: "placeholder.jpg",
-    name: "Papel Higiénico Jumbo",
-    description: "Rollos de gran tamaño especialmente diseñados para uso comercial e institucional. Máxima durabilidad y rendimiento económico.",
-    features: ["Mayor rendimiento por rollo", "Ideal para uso comercial", "Compatible con dispensadores", "Excelente relación precio-calidad"],
-    category: "Higiene Personal",
-    visible: true
-  },
-  {
-    id: "servilletas",
-    image: "placeholder.jpg",
-    name: "Servilletas Clásicas",
-    description: "Servilletas de papel de alta calidad en diversos colores y tamaños. Perfectas para restaurantes, eventos y uso doméstico.",
-    features: ["Variedad de colores", "Diferentes tamaños disponibles", "Resistentes y absorbentes", "Absorción rápida"],
-    category: "Mesa y Cocina",
-    visible: true
-  },
-  {
-    id: "servilletas-premium",
-    image: "placeholder.jpg",
-    name: "Servilletas Premium",
-    description: "Servilletas de lujo con diseños elegantes y texturas especiales, perfectas para eventos especiales y establecimientos de alta gama.",
-    features: ["Diseños exclusivos", "Textura premium suave", "Colores elegantes", "Presentación especial"],
-    category: "Mesa y Cocina",
-    visible: true
-  },
-  {
-    id: "papel-toalla",
-    image: "placeholder.jpg",
-    name: "Papel Toalla Multiusos",
-    description: "Toallas de papel ultra absorbentes y resistentes, ideales para cocina, limpieza y múltiples usos domésticos y comerciales.",
-    features: ["Ultra absorbente", "Resistente en húmedo", "Multiusos versátil", "Dispensado fácil"],
-    category: "Limpieza",
-    visible: true
-  },
-  {
-    id: "papel-toalla-industrial",
-    image: "placeholder.jpg",
-    name: "Papel Toalla Industrial",
-    description: "Toallas de papel de grado industrial para uso profesional intensivo. Máxima resistencia y capacidad de absorción.",
-    features: ["Grado industrial", "Super resistente", "Alto rendimiento", "Uso profesional intensivo"],
-    category: "Limpieza",
-    visible: true
+const createFeatureList = (product: CatalogProduct): string[] => {
+  const sharedBullets = [
+    "Calidad institucional garantizada",
+    "Entrega rápida a nivel nacional",
+    "Texturas suaves y resistentes",
+    "Asesoría personalizada para tu pedido",
+  ];
+
+  if (product.category.toLowerCase().includes("papel")) {
+    return [
+      "Celulosa seleccionada para máxima absorción",
+      "Mayor rendimiento por rollo o pliego",
+      "Compatible con dispensadores institucionales",
+      "Control de calidad continuo en planta",
+    ];
   }
-];
+
+  if (product.category.toLowerCase().includes("navidenas")) {
+    return [
+      "Diseños estacionales listos para vitrinas",
+      "Tintas orgánicas resistentes al roce",
+      "Cortes precisos para un doblado perfecto",
+      "Disponibilidad limitada: programa tu pedido",
+    ];
+  }
+
+  if (product.category.toLowerCase().includes("eventos")) {
+    return [
+      "Estampados elegantes para celebraciones",
+      "Combinan con vajillas premium",
+      "Paquetes listos para banqueteras",
+      "Acabado satinado y absorbente",
+    ];
+  }
+
+  return sharedBullets;
+};
+
+const initialProducts: Product[] = catalogProducts.map((product) => ({
+  id: product.id,
+  image: product.image,
+  name: product.name,
+  description: product.description,
+  features: createFeatureList(product),
+  category: product.category,
+  visible: true,
+}));
 
 export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     // Load products from localStorage or use initial products
-    const savedProducts = localStorage.getItem('admin_products');
+    const savedProducts = localStorage.getItem("admin_products");
+
     if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    } else {
-      setProducts(initialProducts);
+      try {
+        const parsed: Product[] = JSON.parse(savedProducts);
+        const needsMigration =
+          !Array.isArray(parsed) ||
+          parsed.length === 0 ||
+          parsed.every((product) => product.image?.includes("placeholder"));
+
+        if (!needsMigration) {
+          setProducts(parsed);
+          return;
+        }
+      } catch (error) {
+        console.warn("No se pudieron cargar los productos guardados, se usará el catálogo base.", error);
+      }
     }
+
+    setProducts(initialProducts);
   }, []);
 
   useEffect(() => {
     // Save products to localStorage whenever products change
-    localStorage.setItem('admin_products', JSON.stringify(products));
+    localStorage.setItem("admin_products", JSON.stringify(products));
   }, [products]);
 
   const addProduct = (product: Omit<Product, 'id'>) => {
@@ -100,24 +106,24 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ...product,
       id: `product-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
     };
-    setProducts(prev => [...prev, newProduct]);
+    setProducts((prev) => [...prev, newProduct]);
   };
 
   const updateProduct = (id: string, updatedProduct: Partial<Product>) => {
-    setProducts(prev => 
-      prev.map(product => 
+    setProducts((prev) =>
+      prev.map((product) =>
         product.id === id ? { ...product, ...updatedProduct } : product
       )
     );
   };
 
   const deleteProduct = (id: string) => {
-    setProducts(prev => prev.filter(product => product.id !== id));
+    setProducts((prev) => prev.filter((product) => product.id !== id));
   };
 
   const toggleVisibility = (id: string) => {
-    setProducts(prev => 
-      prev.map(product => 
+    setProducts((prev) =>
+      prev.map((product) =>
         product.id === id ? { ...product, visible: !product.visible } : product
       )
     );

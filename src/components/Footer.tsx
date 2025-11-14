@@ -1,7 +1,10 @@
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Globe, MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Footer = () => {
+  const whatsappUrl =
+    "https://api.whatsapp.com/send?phone=51946468146&text=Hola%20Papeler%C3%ADa%20Latinoamericana%2C%20quisiera%20informaci%C3%B3n%20sobre%20sus%20productos.";
+
   return (
     <footer id="contacto" className="bg-ink text-paper py-16 border-t-4 border-primary">
       <div className="container mx-auto px-4">
@@ -66,12 +69,26 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-3">
                 <Phone size={20} className="mt-1 text-primary flex-shrink-0" />
-                <span className="text-paper/80">(01) 6830250 / 
-946 468 146</span>
+                <span className="text-paper/80">
+                  (01) 683-0250 / (01) 255-0567 <br />
+                  946 468 146
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Globe size={20} className="mt-1 text-primary flex-shrink-0" />
+                <a href="https://www.palasac.com" target="_blank" rel="noreferrer" className="text-paper/80 hover:text-primary transition-colors">
+                  www.palasac.com
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={20} className="mt-1 text-primary flex-shrink-0" />
-                <span className="text-paper/80">Mz. u Lote 3 Urb. Huertos de Lurin</span>
+                <span className="text-paper/80">Mz. U Lote 3, Urb. Huertos de Lurín, Lima</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <MessageCircle size={20} className="mt-1 text-primary flex-shrink-0" />
+                <a href={whatsappUrl} target="_blank" rel="noreferrer" className="text-paper/80 hover:text-primary transition-colors">
+                  Escríbenos por WhatsApp
+                </a>
               </li>
             </ul>
           </div>

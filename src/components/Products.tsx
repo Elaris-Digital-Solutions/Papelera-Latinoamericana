@@ -1,77 +1,76 @@
 import { Card, CardContent } from "@/components/ui/card";
-// import notebooksImg from "@/assets/product-notebooks.jpg";
-// import pensImg from "@/assets/product-pens.jpg";
-// import suppliesImg from "@/assets/product-supplies.jpg";
-import papelJumboImg from "placeholder.jpg";
-import papelToallaImg from "placeholder.jpg";
-import ServilletaImg from "placeholder.jpg";
-
-
-const products = [
-  {
-    image: "placeholder.jpg",
-    name: "Papel Higiénico",
-    description: "Rollos de papel higiénico premium con suavidad excepcional. Disponibles en presentaciones individuales y paquetes mayoristas.",
-  },
-  {
-    image: "placeholder.jpg",
-    name: "Servilletas",
-    description: "Servilletas de papel de alta calidad en diversos colores y tamaños. Ideales para restaurantes, eventos y hogares.",
-  },
-  {
-    image: "placeholder.jpg",
-    name: "Papel Toalla",
-    description: "Toallas de papel absorbentes y resistentes para cocina y limpieza. Presentaciones en rollo y paquetes múltiples.",
-  },
-];
+import { useProducts } from "@/contexts/ProductsContext";
+import { Link } from "react-router-dom";
 
 const Products = () => {
+  const { products } = useProducts();
+  const featured = products.filter((product) => product.visible).slice(0, 3);
+
   return (
-    <section id="productos" className="py-20 bg-card">
+    <section id="productos" className="bg-card py-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <div className="inline-block mb-4">
-            <div className="h-1 w-20 bg-primary mb-4 mx-auto" />
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-              Productos Destacados
+        <div className="mb-16 text-center">
+          <div className="inline-block">
+            <div className="mb-4 h-1 w-20 bg-primary" />
+            <h2 className="mb-4 text-4xl font-display font-bold text-foreground md:text-5xl">
+              Nuestros Productos
             </h2>
-            <div className="h-0.5 w-32 bg-divider mx-auto" />
+            <div className="h-0.5 w-32 bg-divider" />
           </div>
-          <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto mt-6">
-            Descubre nuestra selección de artículos esenciales para cada necesidad
+          <p className="mx-auto mt-6 max-w-2xl font-body text-lg text-muted-foreground">
+            Más de 25 años abasteciendo al mercado peruano con papeles institucionales y servilletas en diseños exclusivos
+            para negocios, eventos y retail.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-8">
-          {products.map((product, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-300 overflow-hidden bg-background border-2 border-border max-w-sm mx-auto">
-              <div className="aspect-square overflow-hidden p-8 flex items-center justify-center">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-4/5 h-4/5 object-contain group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <CardContent className="p-6 border-t-2 border-ink">
-                <h3 className="text-2xl font-display font-bold text-foreground mb-3">
-                  {product.name}
-                </h3>
-                <p className="text-muted-foreground font-body leading-relaxed">
-                  {product.description}
+        <div className="grid gap-8 px-0 md:grid-cols-3 md:px-8">
+          {featured.map((product) => (
+            <Card
+              key={product.id}
+              className="group mx-auto max-w-sm overflow-hidden border-2 border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            >
+              <Link to={`/product/${product.id}`} className="block">
+                <div className="flex aspect-square items-center justify-center overflow-hidden bg-white p-8">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    loading="lazy"
+                    className="h-4/5 w-4/5 object-contain transition duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </Link>
+              <CardContent className="border-t-2 border-ink p-6">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+                  {product.category}
                 </p>
+                <h3 className="mb-3 text-2xl font-display text-foreground">{product.name}</h3>
+                <p className="text-sm font-body text-muted-foreground line-clamp-3">{product.description}</p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground transition hover:bg-primary/90"
+                  >
+                    Ver producto
+                  </Link>
+                  <Link
+                    to="/productos"
+                    className="inline-flex items-center justify-center rounded-full border border-primary px-5 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary transition hover:bg-primary hover:text-primary-foreground"
+                  >
+                    Catálogo
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {/* Ver más button */}
-        <div className="text-center mt-12">
-          <a
-            href="/productos"
-            className="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-body font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        <div className="mt-12 text-center">
+          <Link
+            to="/productos"
+            className="inline-flex items-center rounded-full bg-primary px-8 py-3 font-body font-semibold uppercase tracking-[0.3em] text-primary-foreground shadow-lg transition hover:-translate-y-0.5 hover:bg-primary/90"
           >
-            Ver más productos
-          </a>
+            Ver catálogo completo
+          </Link>
         </div>
       </div>
     </section>

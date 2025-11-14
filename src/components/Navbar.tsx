@@ -9,7 +9,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Inicio", href: "#inicio" },
     { name: "Nosotros", href: "#nosotros" },
-    { name: "Contacto", href: "#contacto" },
+    { name: "Contacto", href: "/contacto" },
   ];
 
   const productLinks = [

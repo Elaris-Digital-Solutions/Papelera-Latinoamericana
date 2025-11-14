@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useProducts } from "@/contexts/ProductsContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const categories = ["Todos", "Higiene Personal", "Mesa y Cocina", "Limpieza"];
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const Products = () => {
   const { products } = useProducts();
+  const categories = useMemo(
+    () => ["Todos", ...Array.from(new Set(products.map((product) => product.category)))],
+    [products]
+  );
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   
-  const filteredProducts = selectedCategory === "Todos" 
-    ? products.filter(product => product.visible)
-    : products.filter(product => product.category === selectedCategory && product.visible);
+  const filteredProducts =
+    selectedCategory === "Todos"
+      ? products.filter((product) => product.visible)
+      : products.filter((product) => product.category === selectedCategory && product.visible);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -76,64 +80,66 @@ const Products = () => {
             </div>
 
             {/* Products Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <div className="grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {filteredProducts.map((product) => (
-                <Card key={product.id} id={product.id} className="group hover:shadow-2xl transition-all duration-500 overflow-hidden bg-background border-2 border-border vintage-shadow">
-                  {/* Product Image */}
-                  <div className="aspect-square overflow-hidden p-8 flex items-center justify-center bg-white">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-4/5 h-4/5 object-contain group-hover:scale-110 transition-transform duration-700"
-                    />
-                  </div>
-                  
-                  <CardContent className="p-6 border-t-2 border-ink">
-                    {/* Category Badge */}
+                <Card
+                  key={product.id}
+                  id={product.id}
+                  className="group overflow-hidden border-2 border-border bg-background vintage-shadow transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  <Link to={`/product/${product.id}`} className="block">
+                    <div className="flex aspect-square items-center justify-center overflow-hidden bg-white p-8">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-4/5 w-4/5 object-contain transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                    </div>
+                  </Link>
+
+                  <CardContent className="border-t-2 border-ink p-6">
                     <div className="mb-3">
-                      <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-sm text-xs font-body font-medium uppercase tracking-wide">
+                      <span className="inline-block rounded-sm bg-primary/10 px-3 py-1 text-xs font-body font-medium uppercase tracking-[0.3em] text-primary">
                         {product.category}
                       </span>
                     </div>
-                    
-                    {/* Product Name - Serif Typography */}
-                    <h3 className="text-2xl font-display font-bold text-foreground mb-3 leading-tight">
+
+                    <h3 className="mb-3 font-display text-2xl font-bold leading-tight text-foreground">
                       {product.name}
                     </h3>
-                    
-                    {/* Description - Sans-serif for readability */}
-                    <p className="text-muted-foreground font-body leading-relaxed mb-4 text-sm">
+
+                    <p className="mb-4 text-sm font-body leading-relaxed text-muted-foreground">
                       {product.description}
                     </p>
-                    
-                    {/* Features List */}
-                    <div className="mb-6">
-                      <h4 className="font-display font-semibold text-foreground mb-3 text-base">Características:</h4>
-                      <ul className="space-y-2">
-                        {product.features.map((feature, index) => (
-                          <li key={index} className="text-sm text-muted-foreground flex items-start font-body">
-                            <span className="w-2 h-2 bg-primary rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
 
-                    {/* Action Buttons - Following Hero Button Style */}
-                    <div className="flex gap-3">
-                      <Button 
-                        className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-body font-semibold tracking-wide uppercase text-sm"
-                        size="sm"
+                    {product.features.length > 0 && (
+                      <div className="mb-6">
+                        <h4 className="font-display font-semibold text-foreground">Características</h4>
+                        <ul className="mt-3 space-y-2">
+                          {product.features.map((feature, index) => (
+                            <li key={index} className="flex items-start text-sm text-muted-foreground">
+                              <span className="mr-3 mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap gap-3">
+                      <Link
+                        to={`/product/${product.id}`}
+                        className="flex-1 rounded-full bg-primary px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.3em] text-primary-foreground transition hover:bg-primary/90"
+                      >
+                        Ver producto
+                      </Link>
+                      <Link
+                        to="/contacto"
+                        className="flex-1 rounded-full border border-primary px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.3em] text-primary transition hover:bg-primary hover:text-primary-foreground"
                       >
                         Cotizar
-                      </Button>
-                      <Button 
-                        variant="outline"
-                        className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-body font-semibold tracking-wide uppercase text-sm bg-transparent"
-                        size="sm"
-                      >
-                        Info
-                      </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
