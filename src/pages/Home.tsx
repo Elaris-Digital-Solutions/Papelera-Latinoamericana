@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import { Building2, Users, Award, MapPin, Package } from "lucide-react";
+import { Building2, Users, Award, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
@@ -123,8 +123,12 @@ const Home = () => {
                   to={`/productos/${product.slug}`}
                   className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all"
                 >
-                  <div className="aspect-square bg-background flex items-center justify-center p-8">
-                    <Package className="h-24 w-24 text-muted-foreground group-hover:text-primary transition-colors" />
+                  <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-8">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-contain"
+                    />
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">
@@ -177,6 +181,31 @@ const Home = () => {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Google Maps Section */}
+      <section className="py-16 md:py-24 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Nuestra Ubicación
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Encuéntranos en Mz. u Lote 3 Urb. Huertos de Lurín, Lima 15823
+            </p>
+          </div>
+
+          <div className="rounded-lg overflow-hidden shadow-lg">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.123456789012!2d-76.987654321!3d-12.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9101234567890123%3A0x123456789abcdef!2sMz.%20u%20Lote%203%20Urb.%20Huertos%20de%20Lur%C3%ADn%2C%20Lima%2015823!5e0!3m2!1ses-419!2spe!4v1631234567890!5m2!1ses-419!2spe"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+            ></iframe>
           </div>
         </div>
       </section>

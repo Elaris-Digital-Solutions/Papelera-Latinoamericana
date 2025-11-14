@@ -1,6 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { getProductBySlug } from "@/data/products";
-import { ArrowLeft, Package } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -84,8 +84,12 @@ const ProductoDetalle = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Product Image */}
-            <div className="bg-secondary rounded-lg p-8 flex items-center justify-center aspect-square">
-              <Package className="h-48 w-48 text-muted-foreground" />
+            <div className="bg-white border border-gray-300 rounded-lg p-8 flex items-center justify-center aspect-square">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-full w-full object-contain"
+              />
             </div>
 
             {/* Product Info */}

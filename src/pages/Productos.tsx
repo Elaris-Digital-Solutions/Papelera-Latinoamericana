@@ -1,6 +1,6 @@
 import { categories, getProductsByCategory, products } from "@/data/products";
 import { Link } from "react-router-dom";
-import { Package, Search } from "lucide-react";
+import { Search, Package } from "lucide-react";
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -98,8 +98,12 @@ const Productos = () => {
                       className="group"
                     >
                       <div className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
-                        <div className="aspect-square bg-secondary flex items-center justify-center p-4">
-                          <Package className="h-20 w-20 text-muted-foreground group-hover:text-primary transition-colors" />
+                        <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-8">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="h-full w-full object-contain"
+                          />
                         </div>
                         <div className="p-4">
                           <h3 className="font-semibold text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors">
