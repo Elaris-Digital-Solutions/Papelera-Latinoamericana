@@ -28,13 +28,25 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             {menuItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                {item.name}
-              </Link>
+              item.name === "Contacto" ? (
+                <Link key={item.path} to={item.path}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="rounded-full px-4 py-1.5 bg-primary text-foreground border-2 border-foreground hover:opacity-90 transition-colors"
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              ) : (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </nav>
 
@@ -56,14 +68,26 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="md:hidden py-4 space-y-2">
             {menuItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
+              item.name === "Contacto" ? (
+                <Link key={item.path} to={item.path} onClick={() => setIsMenuOpen(false)}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="w-full text-left px-4 py-2 rounded-full bg-primary text-foreground border-2 border-foreground hover:opacity-90 transition-colors"
+                  >
+                    {item.name}
+                  </Button>
+                </Link>
+              ) : (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </nav>
         )}
