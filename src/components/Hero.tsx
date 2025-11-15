@@ -21,8 +21,8 @@ const Hero = () => {
             <Link to="/productos">
               <Button 
                 size="lg" 
-                variant="secondary"
-                className="w-full sm:w-auto bg-white text-primary hover:bg-white/90"
+                variant="outline"
+                className="w-full sm:w-auto border-white text-primary hover:text-white hover:bg-white/10"
               >
                 Ver Productos
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -32,7 +32,7 @@ const Hero = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="w-full sm:w-auto border-white text-white hover:bg-white/10"
+                className="w-full sm:w-auto border-white text-primary hover:text-white hover:bg-white/10"
               >
                 Contactar
               </Button>
