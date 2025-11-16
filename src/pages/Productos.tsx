@@ -31,14 +31,15 @@ const Productos = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative h-[40vh] min-h-[300px] bg-gradient-to-br from-primary via-primary/90 to-primary/80 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1586864387634-29ad1b7828b4?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
-        <div className="relative h-full flex items-center justify-center text-center px-4">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
+      <div className="relative h-screen min-h-[640px] overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1586864387634-29ad1b7828b4?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10"></div>
+        <div className="relative h-full flex items-center justify-center text-center px-4 z-20">
+          <div className="max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
               Nuestros Productos
             </h1>
-            <p className="text-lg text-primary-foreground/90">
+            <p className="text-lg text-slate-100">
               Amplio catálogo de papel institucional, papel toalla y servilletas para cada necesidad
             </p>
           </div>
@@ -97,7 +98,7 @@ const Productos = () => {
                       to={`/productos/${product.slug}`}
                       className="group"
                     >
-                      <div className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
+                      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
                         <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-8">
                           <img
                             src={product.image}
@@ -106,7 +107,7 @@ const Productos = () => {
                           />
                         </div>
                         <div className="p-4">
-                          <h3 className="font-semibold text-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors">
+                          <h3 className="font-semibold text-slate-900 text-sm line-clamp-2 group-hover:text-sky-600 transition-colors">
                             {product.name}
                           </h3>
                           <p className="text-xs text-muted-foreground mt-1">

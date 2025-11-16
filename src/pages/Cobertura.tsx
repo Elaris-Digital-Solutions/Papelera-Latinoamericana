@@ -13,14 +13,15 @@ const Cobertura = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative h-[50vh] min-h-[400px] bg-gradient-to-br from-primary via-primary/90 to-primary/80 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20"></div>
-        <div className="relative h-full flex items-center justify-center text-center px-4">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">
+      <div className="relative h-screen min-h-[640px] overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10"></div>
+        <div className="relative h-full flex items-center justify-center text-center px-4 z-20">
+          <div className="max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
               Cobertura Nacional
             </h1>
-            <p className="text-lg text-primary-foreground/90">
+            <p className="text-lg text-slate-100">
               Presencia en todo el Perú, llevando calidad y confianza a cada rincón del país
             </p>
           </div>
@@ -118,7 +119,7 @@ const Cobertura = () => {
             </p>
             <a
               href="/contacto"
-              className="inline-block bg-white text-primary px-8 py-3 rounded-md font-semibold hover:bg-white/90 transition-colors"
+              className="inline-block bg-sky-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-sky-700 transition"
             >
               Contactar Ahora
             </a>

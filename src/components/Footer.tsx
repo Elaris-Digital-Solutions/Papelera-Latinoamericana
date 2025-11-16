@@ -9,13 +9,14 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
-          <div>
-            <h3 className="text-lg font-bold text-primary mb-4">
-              Papelera Latinoamericana
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              25 años de experiencia fabricando papel institucional, papel toalla y servilletas de la más alta calidad.
-            </p>
+          <div className="flex items-start">
+            <img src="/assets/logo.png" alt="Papelera Latinoamericana" className="h-10 w-auto mr-4 object-contain" />
+            <div>
+              <h3 className="text-lg font-bold text-primary mb-4 sr-only">Papelera Latinoamericana</h3>
+              <p className="text-sm text-muted-foreground">
+                25 años de experiencia fabricando papel institucional, papel toalla y servilletas de la más alta calidad.
+              </p>
+            </div>
           </div>
 
           {/* Quick Links */}

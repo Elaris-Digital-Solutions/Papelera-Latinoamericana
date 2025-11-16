@@ -20,9 +20,8 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary">
-              Papelera Latinoamericana
-            </div>
+            <img src="/assets/logo.png" alt="Papelera Latinoamericana" className="h-8 md:h-10 object-contain" />
+            <span className="sr-only">Papelera Latinoamericana</span>
           </Link>
 
           {/* Desktop Navigation */}
