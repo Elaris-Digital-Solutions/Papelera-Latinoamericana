@@ -32,8 +32,8 @@ const Header = () => {
                 <Link key={item.path} to={item.path}>
                   <Button
                     size="sm"
-                    variant="outline"
-                    className="rounded-full px-4 py-1.5 bg-primary text-foreground border-2 border-foreground hover:opacity-90 transition-colors"
+                    variant="solid"
+                    className="rounded-full px-6 py-2 bg-sky-600 text-white font-medium hover:bg-sky-700 transition"
                   >
                     {item.name}
                   </Button>
@@ -72,8 +72,8 @@ const Header = () => {
                 <Link key={item.path} to={item.path} onClick={() => setIsMenuOpen(false)}>
                   <Button
                     size="sm"
-                    variant="outline"
-                    className="w-full text-left px-4 py-2 rounded-full bg-primary text-foreground border-2 border-foreground hover:opacity-90 transition-colors"
+                    variant="solid"
+                    className="w-full text-left px-4 py-2 rounded-full bg-sky-600 text-white font-medium hover:bg-sky-700 transition"
                   >
                     {item.name}
                   </Button>

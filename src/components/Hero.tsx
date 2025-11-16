@@ -5,62 +5,45 @@ import { ArrowRight } from "lucide-react";
 const Hero = () => {
   return (
     <section
-      className="relative bg-cover bg-center py-20 md:py-32"
+      className="relative bg-cover bg-center py-16 md:py-28"
       style={{ backgroundImage: "url('/assets/Imagen_hero.png')" }}
     >
-        {/* Contenedor del contenido (sin overlay) */}
-        <div className="container mx-auto px-4 relative">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Título con sombra sutil para mejorar legibilidad sobre la imagen */}
-          <h1
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6"
-            style={{ textShadow: "0 2px 6px rgba(0,0,0,0.45)" }}
-          >
-            Papelera Latinoamericana
-          </h1>
-          {/* Párrafo principal con ligera sombra para mejor contraste */}
-          <p
-            className="text-xl md:text-2xl text-black mb-4"
-            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.35)" }}
-          >
-            25 años fabricando calidad para el Perú
-          </p>
-          {/* Descripción con sombra ligera; se mantiene responsividad y posición */}
-          <p
-            className="text-lg text-black mb-8 max-w-2xl mx-auto"
-            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.35)" }}
-          >
-            Líderes en la fabricación de papel institucional, papel toalla y servilletas. 
-            Distribución nacional con la confianza de miles de clientes.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/productos">
-              {/* Botón: fondo inicial igual a `text-primary` del footer (usamos `bg-primary`),
-                  texto en blanco por contraste. Al hacer hover: texto y borde negros. */}
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto bg-primary text-black border-transparent hover:bg-transparent hover:text-black transition-colors duration-200"
-              >
-                Ver Productos
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to="/contacto">
-              {/* Botón: fondo inicial igual a `text-primary` del footer; hover cambia texto y borde a negro */}
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto bg-primary text-black border-transparent hover:bg-transparent hover:text-black transition-colors duration-200"
-              >
-                Contactar
-              </Button>
-            </Link>
+      {/* Overlay gradient dark bluish */}
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10" />
+
+      {/* Contenedor del contenido con z-index encima del overlay */}
+      <div className="relative z-20">
+        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center py-12 md:py-20">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4">
+              Papelera Latinoamericana
+            </h1>
+
+            <p className="text-lg sm:text-xl md:text-2xl text-slate-100 mb-3">
+              25 años fabricando calidad para el Perú
+            </p>
+
+            <p className="text-base sm:text-lg md:text-xl text-slate-200 mb-8 max-w-3xl mx-auto">
+              Líderes en la fabricación de papel institucional, papel toalla y servilletas. Distribución
+              nacional con la confianza de miles de clientes.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/productos">
+                <button className="bg-sky-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-sky-700 transition">
+                  Ver Productos
+                </button>
+              </Link>
+
+              <Link to="/contacto">
+                <button className="bg-transparent border border-white/80 text-white font-semibold px-8 py-3 rounded-full hover:bg-white hover:text-sky-900 transition">
+                  Contactar
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-      
-      {/* Decorative wave removed to allow background image to fill the hero */}
     </section>
   );
 };
