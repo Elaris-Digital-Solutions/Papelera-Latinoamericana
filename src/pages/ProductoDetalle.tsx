@@ -1,5 +1,6 @@
 import { useParams, Link, Navigate } from "react-router-dom";
-import { getProductBySlug } from "@/data/products";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getProductBySlug, products } from "@/data/products";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -71,6 +72,25 @@ const ProductoDetalle = () => {
     );
   }
 
+  // Carrusel de productos relacionados
+  const sameCat = products.filter(p => p.category === product.category && p.slug !== product.slug);
+  let items = [...sameCat];
+  if (items.length < 6) {
+    const firstCat = products[0]?.category;
+    const fillCat = products.filter(p => p.category === firstCat && p.slug !== product.slug && !items.some(i => i.slug === p.slug));
+    items = [...items, ...fillCat].slice(0, 6);
+  } else {
+    items = items.slice(0, 6);
+  }
+
+  // Solo mostrar los primeros 4 productos relacionados
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
+  const groupSize = 4;
+  const maxIndex = Math.max(0, items.length - 1);
+  const handlePrev = () => setCarouselIndex(i => (i === 0 ? maxIndex : i - 1));
+  const handleNext = () => setCarouselIndex(i => (i === maxIndex ? 0 : i + 1));
+
   return (
     <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
       <div className="container mx-auto px-4">
@@ -140,7 +160,7 @@ const ProductoDetalle = () => {
 
           {/* Quote Request Form */}
           <motion.div
-            className="mt-12 max-w-2xl mx-auto"
+            className="mt-12 max-w-5xl mx-auto"
             variants={fadeInUp}
             initial="hidden"
             whileInView="show"
@@ -212,6 +232,58 @@ const ProductoDetalle = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* También te podrían interesar */}
+      <motion.section className="py-16" variants={fadeInUp} initial="hidden" whileInView="show" viewport={viewportConfig}>
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <motion.div className="text-center mb-10" variants={fadeInUp}>
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">También te podrían interesar</h2>
+              <p className="text-muted-foreground">Más productos de la categoría <span className="font-semibold text-primary">{product.category}</span></p>
+            </motion.div>
+            <div className="flex items-center justify-center gap-6">
+              {/* Mobile: Carrusel con flechas */}
+              <div className="block sm:hidden w-full">
+                <div className="flex items-center justify-center gap-4">
+                  <button type="button" aria-label="Anterior" onClick={handlePrev} className="p-2 rounded-full bg-card border border-border hover:bg-primary/10 transition">
+                    <ChevronLeft className="h-6 w-6 text-primary" />
+                  </button>
+                  <motion.div variants={scaleIn} className="min-w-[220px] max-w-xs flex-shrink-0 mx-auto">
+                    <Link to={`/productos/${items[carouselIndex].slug}`} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all block">
+                      <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-6">
+                        <img src={items[carouselIndex].image} alt={items[carouselIndex].name} className="h-full w-full object-contain" />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">{items[carouselIndex].name}</h3>
+                        <p className="text-sm text-muted-foreground">{items[carouselIndex].category}</p>
+                      </div>
+                    </Link>
+                  </motion.div>
+                  <button type="button" aria-label="Siguiente" onClick={handleNext} className="p-2 rounded-full bg-card border border-border hover:bg-primary/10 transition">
+                    <ChevronRight className="h-6 w-6 text-primary" />
+                  </button>
+                </div>
+              </div>
+              {/* Desktop: 4 productos fijos */}
+              <div className="hidden sm:flex items-center justify-center gap-6 w-full">
+                {items.slice(0, 4).map((p) => (
+                  <motion.div key={p.slug} variants={scaleIn} className="min-w-[220px] max-w-xs flex-shrink-0">
+                    <Link to={`/productos/${p.slug}`} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all block">
+                      <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-6">
+                        <img src={p.image} alt={p.name} className="h-full w-full object-contain" />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">{p.name}</h3>
+                        <p className="text-sm text-muted-foreground">{p.category}</p>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
     </motion.section>
   );
 };
