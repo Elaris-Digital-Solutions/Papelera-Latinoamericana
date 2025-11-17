@@ -142,11 +142,24 @@ const Home = () => {
               ))}
             </div>
 
-            <Link to="/productos">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary-dark">
-                Ver Catálogo Completo
-              </Button>
-            </Link>
+            <div className="flex items-center justify-center gap-4">
+              <Link to="/productos">
+                <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary-dark">
+                  Ver Catálogo Completo
+                </Button>
+              </Link>
+
+              <a
+                href="/assets/CATALOGO-PALASAC-2024.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <button className="bg-white text-slate-900 font-semibold px-6 py-3 rounded-md hover:shadow-lg transition">
+                  Descargar Catálogo
+                </button>
+              </a>
+            </div>
           </div>
         </div>
       </section>
