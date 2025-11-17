@@ -42,6 +42,16 @@ const Productos = () => {
             <p className="text-lg text-slate-100">
               Amplio catálogo de papel institucional, papel toalla y servilletas para cada necesidad
             </p>
+            <div className="mt-8 flex justify-center">
+              <a
+                href="/assets/CATALOGO-PALASAC-2024.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-sky-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-sky-700 transition"
+              >
+                Descargar Catálogo
+              </a>
+            </div>
           </div>
         </div>
       </div>
