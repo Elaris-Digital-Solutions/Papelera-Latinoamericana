@@ -9,12 +9,12 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
-          <div className="flex items-start">
-            <img src="/assets/logo.png" alt="Papelera Latinoamericana" className="h-10 w-auto mr-4 object-contain" />
+          <div className="flex flex-col items-start">
+            <img src="/assets/logosinfondo.png" alt="Papelera Latinoamericana" className="h-20 w-auto mb-4 object-contain" />
             <div>
               <h3 className="text-lg font-bold text-primary mb-4 sr-only">Papelera Latinoamericana</h3>
               <p className="text-sm text-muted-foreground">
-                25 años de experiencia fabricando papel institucional, papel toalla y servilletas de la más alta calidad.
+                En Papelería Latinoamericana SAC, ofrecemos productos de alta calidad, brindándoles a nuestros clientes la mejor garantía e innovación.
               </p>
             </div>
           </div>

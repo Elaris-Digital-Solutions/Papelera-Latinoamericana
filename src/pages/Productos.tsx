@@ -32,7 +32,7 @@ const Productos = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <div className="relative h-screen min-h-[640px] overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1586864387634-29ad1b7828b4?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-[url('/assets/productos.png')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10"></div>
         <div className="relative h-full flex items-center justify-center text-center px-4 z-20">
           <div className="max-w-4xl">

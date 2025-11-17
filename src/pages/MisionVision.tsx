@@ -1,4 +1,4 @@
-import { Target, Eye, Compass } from "lucide-react";
+import { Target, Eye, Compass, Award, Shield, Zap } from "lucide-react";
 
 const MisionVision = () => {
   return (
@@ -20,88 +20,96 @@ const MisionVision = () => {
       </div>
 
       <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
 
           <div className="space-y-12">
-            {/* Misión */}
-            <div className="bg-card border border-border rounded-lg p-8 md:p-12">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Target className="h-8 w-8 text-primary" />
-                </div>
+            {/* Misión y Visión Section */}
+            <section>
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Misión y Visión</h2>
+                <p className="text-slate-600 max-w-2xl mx-auto">Nuestra razón de ser y la dirección hacia la que trabajamos cada día.</p>
               </div>
-              <h2 className="text-3xl font-bold text-center text-foreground mb-6">
-                Nuestra Misión
-              </h2>
-              <p className="text-lg text-muted-foreground text-center leading-relaxed">
-                Fabricar y distribuir productos de papel de la más alta calidad, ofreciendo 
-                soluciones integrales que satisfagan las necesidades de nuestros clientes en 
-                todo el Perú. Nos comprometemos a mantener estándares de excelencia en cada 
-                etapa de producción, desde la selección de materias primas hasta la entrega 
-                final, contribuyendo al desarrollo de nuestros colaboradores y al crecimiento 
-                sostenible de nuestra comunidad.
-              </p>
-            </div>
-
-            {/* Visión */}
-            <div className="bg-card border border-border rounded-lg p-8 md:p-12">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Eye className="h-8 w-8 text-primary" />
-                </div>
-              </div>
-              <h2 className="text-3xl font-bold text-center text-foreground mb-6">
-                Nuestra Visión
-              </h2>
-              <p className="text-lg text-muted-foreground text-center leading-relaxed">
-                Ser reconocidos como la empresa líder en la fabricación de papel institucional, 
-                papel toalla y servilletas en el Perú, destacándonos por nuestra innovación 
-                constante, calidad superior y compromiso con el medio ambiente. Aspiramos a 
-                expandir nuestra presencia en el mercado latinoamericano, manteniendo nuestra 
-                esencia de empresa peruana comprometida con la excelencia y el servicio al cliente.
-              </p>
-            </div>
-
-            {/* Valores */}
-            <div className="bg-gradient-primary rounded-lg p-8 md:p-12">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-                  <Compass className="h-8 w-8 text-white" />
-                </div>
-              </div>
-              <h2 className="text-3xl font-bold text-center text-white mb-8">
-                Nuestros Valores
-              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">Calidad</h3>
-                  <p className="text-white/90">
-                    Compromiso inquebrantable con la excelencia en cada producto que fabricamos.
-                  </p>
+                <article className="bg-card border border-border rounded-lg p-8 md:p-12">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Target className="h-8 w-8 text-primary" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-center text-foreground mb-4">Misión</h3>
+                  <div className="text-center text-lg text-muted-foreground leading-relaxed">
+                    Fabricamos y diseñamos servilletas cortadas, dobladas, impresas, papel higiénico y papel toalla,
+                    institucional y ecológico, empleando en su elaboración solo insumos de alta calidad y totalmente
+                    atóxicos (Papel de fibra de bagazo de caña y tintas orgánicas), abasteciendo así al mercado
+                    nacional e internacional.
+                  </div>
+                </article>
+
+                <article className="bg-card border border-border rounded-lg p-8 md:p-12">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Eye className="h-8 w-8 text-primary" />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-center text-foreground mb-4">Visión</h3>
+                  <div className="text-center text-lg text-muted-foreground leading-relaxed">
+                    Fabricamos y diseñamos servilletas cortadas, dobladas, impresas, papel higiénico y papel toalla,
+                    institucional y ecológico, empleando en su elaboración solo insumos de alta calidad y totalmente
+                    atóxicos (Papel de fibra de bagazo de caña y tintas orgánicas), abasteciendo así al mercado
+                    nacional e internacional.
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      {/* Nuestros Valores Section (separate) */}
+      <section className="py-16 md:py-24 bg-secondary">
+        <div className="container mx-auto px-4 sm:px-8 lg:px-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Nuestros Valores</h2>
+              <p className="text-slate-600 max-w-2xl mx-auto">Principios que definen nuestra forma de trabajo y compromiso con clientes y colaboradores.</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-sky-50 mb-4 mx-auto">
+                  <Award className="h-7 w-7 text-sky-600" />
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">Integridad</h3>
-                  <p className="text-white/90">
-                    Actuamos con transparencia y honestidad en todas nuestras relaciones comerciales.
-                  </p>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">Calidad</h3>
+                <p className="text-slate-600 leading-relaxed">Productos que cumplen los más altos estándares de fabricación.</p>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-sky-50 mb-4 mx-auto">
+                  <Shield className="h-7 w-7 text-sky-600" />
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">Innovación</h3>
-                  <p className="text-white/90">
-                    Mejoramos continuamente nuestros procesos y productos para servir mejor.
-                  </p>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">Confianza</h3>
+                <p className="text-slate-600 leading-relaxed">25 años respaldando a nuestros clientes en todo el Perú.</p>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-sky-50 mb-4 mx-auto">
+                  <Zap className="h-7 w-7 text-sky-600" />
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-white mb-3">Responsabilidad</h3>
-                  <p className="text-white/90">
-                    Comprometidos con el medio ambiente y el desarrollo sostenible.
-                  </p>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">Innovación</h3>
+                <p className="text-slate-600 leading-relaxed">Mejorando continuamente nuestros procesos y productos.</p>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-sky-50 mb-4 mx-auto">
+                  <Compass className="h-7 w-7 text-sky-600" />
                 </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-2">Responsabilidad</h3>
+                <p className="text-slate-600 leading-relaxed">Comprometidos con el medio ambiente y el desarrollo sostenible.</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

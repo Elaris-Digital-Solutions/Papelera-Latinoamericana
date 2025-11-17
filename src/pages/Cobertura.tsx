@@ -31,22 +31,7 @@ const Cobertura = () => {
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
 
-          {/* Map Illustration */}
-          <div className="mb-16 bg-gradient-subtle rounded-lg p-8 md:p-12 border border-border">
-            <div className="flex items-center justify-center mb-8">
-              <div className="relative">
-                <div className="w-64 h-80 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <MapPin className="h-32 w-32 text-primary" />
-                </div>
-                <div className="absolute -top-4 -right-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center animate-pulse">
-                  <Truck className="h-6 w-6 text-white" />
-                </div>
-              </div>
-            </div>
-            <p className="text-center text-xl font-semibold text-foreground">
-              Distribución en las 25 regiones del Perú
-            </p>
-          </div>
+         
 
           {/* Regions Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
@@ -117,12 +102,24 @@ const Cobertura = () => {
             <p className="text-xl text-white/90 mb-6">
               Contáctanos y te conectamos con nuestro distribuidor más cercano
             </p>
-            <a
-              href="/contacto"
-              className="inline-block bg-sky-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-sky-700 transition"
-            >
-              Contactar Ahora
-            </a>
+            <div className="flex items-center justify-center gap-4">
+              <a
+                href="/contacto"
+                className="inline-block bg-sky-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-sky-700 transition"
+              >
+                Contactar Ahora
+              </a>
+
+              <a
+                href="/assets/CATALOGO-PALASAC-2024.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-transparent border border-white/80 text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-sky-900 transition"
+                download
+              >
+                Descargar Catálogo
+              </a>
+            </div>
           </div>
         </div>
       </div>
