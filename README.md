@@ -1,3 +1,75 @@
+# Papelera Latinoamericana
+
+## Proyecto
+
+Sitio web corporativo para Papelera Latinoamericana — presentación de productos, misión y visión, contacto y catálogo.
+
+## Cómo editar este código
+
+Puedes trabajar localmente con tu editor preferido o editar archivos directamente en el control de versiones.
+
+Requisitos básicos:
+
+- Node.js (recomendado usar una versión LTS)
+- npm, pnpm o yarn para instalar dependencias
+
+Pasos rápidos para trabajar localmente:
+
+```sh
+# Clona el repositorio
+git clone <YOUR_GIT_URL>
+
+# Entra al directorio del proyecto
+cd <YOUR_PROJECT_NAME>
+
+# Instala dependencias
+npm install
+
+# Levanta el servidor de desarrollo
+npm run dev
+```
+
+También puedes usar `pnpm` o `yarn` si los prefieres:
+
+```sh
+# pnpm
+pnpm install
+pnpm dev
+
+# yarn
+yarn
+yarn dev
+```
+
+## Editar archivos
+
+- Edita los archivos bajo el directorio `src/`.
+- El punto de entrada principal es `src/main.tsx` y las rutas están definidas en `src/App.tsx`.
+- Componentes reutilizables se encuentran en `src/components/`.
+
+## Tecnologías usadas
+
+- Vite
+- React + TypeScript
+- Tailwind CSS
+- shadcn-ui + Radix UI
+- Framer Motion (animaciones)
+
+## Despliegue
+
+Construye el proyecto para producción y despliega los archivos estáticos generados por Vite:
+
+```sh
+npm run build
+# y luego sirve el contenido de la carpeta `dist/` en tu hosting preferido
+```
+
+## Recursos adicionales
+
+- Catálogo PDF incluido en `public/assets/CATALOGO-PALASAC-2024.pdf`.
+- Contenido estático y assets en la carpeta `public/assets/`.
+
+Si necesitas ayuda para configurar el entorno o integrar servicios adicionales, dime y te doy los pasos específicos.
 # Welcome to your Lovable project
 
 ## Project info
