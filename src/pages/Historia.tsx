@@ -1,30 +1,43 @@
 import { Clock, TrendingUp, Heart } from "lucide-react";
+import { motion } from "framer-motion";
+import { fadeInUp, fadeInUpItem, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
 
 const Historia = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative h-screen min-h-[640px] overflow-hidden">
+      <motion.section
+        className="relative h-screen min-h-[640px] overflow-hidden"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="show"
+      >
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10"></div>
         <div className="relative h-full flex items-center justify-center text-center px-4 z-20">
-          <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+          <motion.div className="max-w-4xl" variants={staggerContainer} initial="hidden" animate="show">
+            <motion.h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4" variants={fadeInUpItem}>
               Nuestra Historia
-            </h1>
-            <p className="text-lg text-slate-100">
+            </motion.h1>
+            <motion.p className="text-lg text-slate-100" variants={fadeInUpItem}>
               25 años construyendo confianza y calidad en el mercado peruano
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
-      </div>
+      </motion.section>
 
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
 
-          <div className="space-y-12">
+          <motion.div
+            className="space-y-12"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportConfig}
+          >
             {/* Timeline Item */}
-            <div className="relative pl-8 border-l-2 border-primary">
+            <motion.div className="relative pl-8 border-l-2 border-primary" variants={fadeInUpItem}>
               <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary"></div>
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -38,10 +51,10 @@ const Historia = () => {
                   empresas y negocios.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Timeline Item */}
-            <div className="relative pl-8 border-l-2 border-primary">
+            <motion.div className="relative pl-8 border-l-2 border-primary" variants={fadeInUpItem}>
               <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary"></div>
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -56,10 +69,10 @@ const Historia = () => {
                   región del Perú.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Timeline Item */}
-            <div className="relative pl-8 border-l-2 border-primary">
+            <motion.div className="relative pl-8 border-l-2 border-primary" variants={fadeInUpItem}>
               <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-primary"></div>
               <div className="mb-4">
                 <div className="flex items-center gap-2 mb-2">
@@ -74,24 +87,30 @@ const Historia = () => {
                   tan firme como el primer día.
                 </p>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Stats */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div className="p-6 rounded-lg bg-secondary">
+          <motion.div
+            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportConfig}
+          >
+            <motion.div className="p-6 rounded-lg bg-secondary" variants={scaleIn}>
               <div className="text-4xl font-bold text-primary mb-2">25+</div>
               <div className="text-muted-foreground">Años de Experiencia</div>
-            </div>
-            <div className="p-6 rounded-lg bg-secondary">
+            </motion.div>
+            <motion.div className="p-6 rounded-lg bg-secondary" variants={scaleIn}>
               <div className="text-4xl font-bold text-primary mb-2">100+</div>
               <div className="text-muted-foreground">Productos</div>
-            </div>
-            <div className="p-6 rounded-lg bg-secondary">
+            </motion.div>
+            <motion.div className="p-6 rounded-lg bg-secondary" variants={scaleIn}>
               <div className="text-4xl font-bold text-primary mb-2">1000+</div>
               <div className="text-muted-foreground">Clientes Satisfechos</div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </div>

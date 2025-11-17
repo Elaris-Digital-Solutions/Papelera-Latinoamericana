@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
+import { fadeInUp, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
 
 const Contacto = () => {
   const { toast } = useToast();
@@ -52,26 +54,34 @@ const Contacto = () => {
   };
 
   return (
-    <div className="py-16 md:py-24">
+    <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-center">
-            Canales Oficiales
-          </h1>
-          
-          <p className="text-lg text-muted-foreground mb-16 text-center">
-            Estamos aquí para atenderte
-          </p>
+          <motion.div variants={fadeInUp}>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-center">
+              Canales Oficiales
+            </h1>
+            
+            <p className="text-lg text-muted-foreground mb-16 text-center">
+              Estamos aquí para atenderte
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <motion.div
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportConfig}
+          >
             {/* Contact Information */}
-            <div>
+            <motion.div variants={fadeInUp}>
               <h2 className="text-2xl font-bold text-foreground mb-8">
                 Información de Contacto
               </h2>
 
               <div className="space-y-6">
-                <div className="flex items-start space-x-4">
+                <motion.div className="flex items-start space-x-4" variants={scaleIn}>
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Phone className="h-6 w-6 text-primary" />
                   </div>
@@ -81,9 +91,9 @@ const Contacto = () => {
                     <p className="text-muted-foreground">Lunes a Viernes: 8:00 AM - 6:00 PM</p>
                     <p className="text-muted-foreground">Sábados: 9:00 AM - 1:00 PM</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start space-x-4">
+                <motion.div className="flex items-start space-x-4" variants={scaleIn}>
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Mail className="h-6 w-6 text-primary" />
                   </div>
@@ -92,9 +102,9 @@ const Contacto = () => {
                     <p className="text-muted-foreground">contacto@papeleralatinoamericana.com</p>
                     <p className="text-muted-foreground">ventas@papeleralatinoamericana.com</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start space-x-4">
+                <motion.div className="flex items-start space-x-4" variants={scaleIn}>
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <MapPin className="h-6 w-6 text-primary" />
                   </div>
@@ -103,9 +113,9 @@ const Contacto = () => {
                     <p className="text-muted-foreground">Lima, Perú</p>
                     <p className="text-muted-foreground">Distribución a nivel nacional</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start space-x-4">
+                <motion.div className="flex items-start space-x-4" variants={scaleIn}>
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <MessageCircle className="h-6 w-6 text-primary" />
                   </div>
@@ -124,12 +134,12 @@ const Contacto = () => {
                       </Button>
                     </a>
                   </div>
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Contact Form */}
-            <div>
+            <motion.div variants={fadeInUp}>
               <h2 className="text-2xl font-bold text-foreground mb-8">
                 Envíanos un Mensaje
               </h2>
@@ -198,11 +208,11 @@ const Contacto = () => {
                   Enviar Mensaje
                 </Button>
               </form>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.section>
   );
 };
 

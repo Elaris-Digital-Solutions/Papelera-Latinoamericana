@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { fadeInUp, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
 
 const ProductoDetalle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -51,7 +53,7 @@ const ProductoDetalle = () => {
 
   if (!product) {
     return (
-      <div className="py-16 md:py-24">
+      <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
             <h1 className="text-3xl font-bold text-foreground mb-4">
@@ -65,35 +67,37 @@ const ProductoDetalle = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.section>
     );
   }
 
   return (
-    <div className="py-16 md:py-24">
+    <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           {/* Back Button */}
-          <Link
-            to="/productos"
-            className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Volver a Productos
-          </Link>
+          <motion.div variants={fadeInUp}>
+            <Link
+              to="/productos"
+              className="inline-flex items-center text-primary hover:text-primary-dark mb-8 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Volver a Productos
+            </Link>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <motion.div className="grid grid-cols-1 lg:grid-cols-2 gap-12" variants={staggerContainer}>
             {/* Product Image */}
-            <div className="bg-white border border-gray-300 rounded-lg p-8 flex items-center justify-center aspect-square">
+            <motion.div className="bg-white border border-gray-300 rounded-lg p-8 flex items-center justify-center aspect-square" variants={scaleIn}>
               <img
                 src={product.image}
                 alt={product.name}
                 className="h-full w-full object-contain"
               />
-            </div>
+            </motion.div>
 
             {/* Product Info */}
-            <div>
+            <motion.div variants={fadeInUp}>
               <div className="mb-4">
                 <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full">
                   {product.category}
@@ -111,7 +115,7 @@ const ProductoDetalle = () => {
               </div>
 
               {/* Specifications */}
-              <div className="bg-card border border-border rounded-lg p-6 mb-8">
+              <motion.div className="bg-card border border-border rounded-lg p-6 mb-8" variants={scaleIn}>
                 <h2 className="text-xl font-bold text-foreground mb-4">
                   Especificaciones
                 </h2>
@@ -129,14 +133,20 @@ const ProductoDetalle = () => {
                     Consulta especificaciones técnicas con nuestro equipo de ventas.
                   </p>
                 )}
-              </div>
+              </motion.div>
 
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Quote Request Form */}
-          <div className="mt-12 max-w-2xl mx-auto">
-            <div className="bg-card border border-border rounded-lg p-8">
+          <motion.div
+            className="mt-12 max-w-2xl mx-auto"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={viewportConfig}
+          >
+            <motion.div className="bg-card border border-border rounded-lg p-8" variants={scaleIn}>
               <h2 className="text-2xl font-bold text-foreground mb-6">
                 Solicitar Cotización
               </h2>
@@ -198,11 +208,11 @@ const ProductoDetalle = () => {
                   Al enviar, serás redirigido a WhatsApp para completar tu cotización
                 </p>
               </form>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.section>
   );
 };
 
