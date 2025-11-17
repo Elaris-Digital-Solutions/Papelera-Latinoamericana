@@ -11,8 +11,8 @@ const Header = () => {
     { name: "Historia", path: "/historia" },
     { name: "Misión y Visión", path: "/mision-vision" },
     { name: "Cobertura", path: "/cobertura" },
-    { name: "Productos", path: "/productos" },
     { name: "Contacto", path: "/contacto" },
+    { name: "Productos", path: "/productos" },
   ];
 
   return (
@@ -27,7 +27,7 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             {menuItems.map((item) => (
-              item.name === "Contacto" ? (
+              item.name === "Productos" ? (
                 <Link key={item.path} to={item.path}>
                   <Button
                     size="sm"
@@ -67,7 +67,7 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="md:hidden py-4 space-y-2">
             {menuItems.map((item) => (
-              item.name === "Contacto" ? (
+              item.name === "Productos" ? (
                 <Link key={item.path} to={item.path} onClick={() => setIsMenuOpen(false)}>
                   <Button
                     size="sm"
