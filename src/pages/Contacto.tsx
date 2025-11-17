@@ -15,6 +15,18 @@ import {
 } from "@/lib/motion";
 
 const Contacto = () => {
+    // Preload hero image
+    if (typeof document !== 'undefined') {
+      const preloadId = 'preload-contacto-img';
+      if (!document.getElementById(preloadId)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = '/assets/Imagen_hero.png';
+        link.id = preloadId;
+        document.head.appendChild(link);
+      }
+    }
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -74,8 +86,8 @@ const Contacto = () => {
 
         {/* Contenedor del contenido con z-index encima del overlay */}
         <div className="relative z-20 flex w-full h-full items-center justify-center">
-          <motion.div className="container mx-auto px-4 md:px-6 lg:px-8 flex justify-center" variants={heroContainer}>
-            <motion.div className="max-w-4xl w-full text-center" variants={heroChild}>
+          <motion.div className="container mx-auto px-4 md:px-6 lg:px-8 flex justify-center" variants={heroContainer} initial="hidden" whileInView="show" viewport={viewportConfig}>
+            <motion.div className="max-w-4xl w-full text-center" variants={heroChild} initial="hidden" whileInView="show" viewport={viewportConfig}>
               <motion.h1
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4"
                 variants={heroChild}
@@ -84,7 +96,7 @@ const Contacto = () => {
               </motion.h1>
 
               <motion.p className="text-lg sm:text-xl md:text-2xl text-slate-100 mb-8" variants={heroChild}>
-                Estamos listos para atender tus consultas, pedidos y cotizaciones en todo el Perú.
+                Estamos listos para atender tus consultas, pedidos y cotizaciones en cualquier parte del mundo.
               </motion.p>
 
               <motion.div variants={heroChild}>
@@ -154,7 +166,7 @@ const Contacto = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Dirección</h3>
                     <p className="text-muted-foreground">Lima, Perú</p>
-                    <p className="text-muted-foreground">Distribución a nivel nacional</p>
+                    <p className="text-muted-foreground">Distribución internacional y nacional</p>
                   </div>
                 </motion.div>
 

@@ -52,22 +52,22 @@ const Home = () => {
     {
       icon: Award,
       title: "25 Años de Experiencia",
-      description: "Un cuarto de siglo fabricando productos de calidad para el mercado peruano.",
+      description: "Un cuarto de siglo fabricando productos de calidad para clientes de todo el mundo.",
     },
     {
       icon: Building2,
       title: "Fabricación Nacional",
-      description: "Producción 100% peruana con los más altos estándares de calidad.",
+      description: "Producción 100% peruana con los más altos estándares de calidad y alcance internacional.",
     },
     {
       icon: MapPin,
-      title: "Cobertura Nacional",
-      description: "Distribución en todo el Perú, llegando a cada rincón del país.",
+      title: "Cobertura Global",
+      description: "Distribución internacional y nacional, llegando a cada rincón del planeta.",
     },
     {
       icon: Users,
       title: "Miles de Clientes Satisfechos",
-      description: "Confianza de hoteles, restaurantes, empresas y consumidores finales.",
+      description: "Confianza de hoteles, restaurantes, empresas y consumidores finales en todo el mundo.",
     },
   ];
 
@@ -90,7 +90,7 @@ const Home = () => {
               ¿Por qué elegirnos?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Somos la mejor opción en papel institucional, papel toalla y servilletas en el Perú.
+              Somos la mejor opción en papel institucional, papel toalla y servilletas para clientes de todo el mundo.
             </p>
           </motion.div>
 
@@ -223,7 +223,7 @@ const Home = () => {
                   <Shield className="h-7 w-7 text-sky-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-slate-900 mb-2">Confianza</h3>
-                <p className="text-slate-600 leading-relaxed">25 años respaldando a nuestros clientes en todo el Perú.</p>
+                <p className="text-slate-600 leading-relaxed">25 años respaldando a nuestros clientes en todo el mundo.</p>
               </motion.div>
 
               <motion.div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center" variants={fadeInUpItem} custom={2}>
@@ -266,12 +266,13 @@ const Home = () => {
 
           <motion.div className="rounded-lg overflow-hidden shadow-lg" variants={scaleIn}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.123456789012!2d-76.987654321!3d-12.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9101234567890123%3A0x123456789abcdef!2sMz.%20u%20Lote%203%20Urb.%20Huertos%20de%20Lur%C3%ADn%2C%20Lima%2015823!5e0!3m2!1ses-419!2spe!4v1631234567890!5m2!1ses-419!2spe"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.217393698736!2d-76.8908834!3d-12.2556131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105bd0fe5e983bd%3A0x8648870348814a69!2sPAPELERA%20LATINOAMERICANA!5e0!3m2!1ses-419!2spe!4v1700240000000!5m2!1ses-419!2spe"
               width="100%"
               height="400"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </motion.div>
         </div>

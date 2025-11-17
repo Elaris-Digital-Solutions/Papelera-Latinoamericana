@@ -9,6 +9,18 @@ import {
 } from "@/lib/motion";
 
 const Cobertura = () => {
+    // Preload hero image
+    if (typeof document !== 'undefined') {
+      const preloadId = 'preload-cobertura-img';
+      if (!document.getElementById(preloadId)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80';
+        link.id = preloadId;
+        document.head.appendChild(link);
+      }
+    }
   const regions = [
     { name: "Lima y Callao", description: "Distribución diaria en toda la capital" },
     { name: "Costa Norte", description: "Piura, Tumbes, Lambayeque, La Libertad" },
@@ -25,16 +37,17 @@ const Cobertura = () => {
         className="relative h-screen min-h-[640px] overflow-hidden"
         variants={fadeInUp}
         initial="hidden"
-        animate="show"
+        whileInView="show"
+        viewport={viewportConfig}
       >
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10"></div>
         <div className="relative h-full flex items-center justify-center text-center px-4 z-20">
-          <motion.div className="max-w-4xl" variants={staggerContainer} initial="hidden" animate="show">
-            <motion.h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4" variants={fadeInUpItem}>
+          <motion.div className="max-w-4xl" variants={staggerContainer} initial="hidden" whileInView="show" viewport={viewportConfig}>
+            <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4" variants={fadeInUpItem}>
               Cobertura Nacional
             </motion.h1>
-            <motion.p className="text-lg text-slate-100" variants={fadeInUpItem}>
+            <motion.p className="text-lg sm:text-xl md:text-2xl text-slate-100 mb-3" variants={fadeInUpItem}>
               Presencia en todo el Perú, llevando calidad y confianza a cada rincón del país
             </motion.p>
           </motion.div>

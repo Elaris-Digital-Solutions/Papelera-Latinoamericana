@@ -3,6 +3,18 @@ import { motion } from "framer-motion";
 import { heroChild, heroContainer, viewportConfig } from "@/lib/motion";
 
 const Hero = () => {
+    // Preload hero image
+    if (typeof document !== 'undefined') {
+      const preloadId = 'preload-hero-img';
+      if (!document.getElementById(preloadId)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = '/assets/Imagen_hero.png';
+        link.id = preloadId;
+        document.head.appendChild(link);
+      }
+    }
   return (
     <motion.section
       className="relative bg-cover bg-center py-16 md:py-28"

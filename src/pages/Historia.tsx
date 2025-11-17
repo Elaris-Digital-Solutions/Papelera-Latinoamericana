@@ -3,6 +3,18 @@ import { motion } from "framer-motion";
 import { fadeInUp, fadeInUpItem, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
 
 const Historia = () => {
+    // Preload hero image
+    if (typeof document !== 'undefined') {
+      const preloadId = 'preload-historia-img';
+      if (!document.getElementById(preloadId)) {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = '/assets/productos.png';
+        link.id = preloadId;
+        document.head.appendChild(link);
+      }
+    }
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -10,16 +22,17 @@ const Historia = () => {
         className="relative h-screen min-h-[640px] overflow-hidden"
         variants={fadeInUp}
         initial="hidden"
-        animate="show"
+        whileInView="show"
+        viewport={viewportConfig}
       >
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-[url('/assets/productos.png')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10"></div>
         <div className="relative h-full flex items-center justify-center text-center px-4 z-20">
-          <motion.div className="max-w-4xl" variants={staggerContainer} initial="hidden" animate="show">
-            <motion.h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4" variants={fadeInUpItem}>
+          <motion.div className="max-w-4xl" variants={staggerContainer} initial="hidden" whileInView="show" viewport={viewportConfig}>
+            <motion.h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4" variants={fadeInUpItem}>
               Nuestra Historia
             </motion.h1>
-            <motion.p className="text-lg text-slate-100" variants={fadeInUpItem}>
+            <motion.p className="text-lg sm:text-xl md:text-2xl text-slate-100 mb-3" variants={fadeInUpItem}>
               25 años construyendo confianza y calidad en el mercado peruano
             </motion.p>
           </motion.div>

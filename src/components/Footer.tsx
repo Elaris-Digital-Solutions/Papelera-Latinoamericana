@@ -120,7 +120,16 @@ const Footer = () => {
 
         <div className="mt-8 pt-8 border-t border-border">
           <p className="text-center text-sm text-muted-foreground">
-            © {currentYear} Papelera Latinoamericana. Todos los derechos reservados.
+            © {currentYear} Papelera Latinoamericana. Todos los derechos reservados.{' '}
+            <a
+              href="https://www.instagram.com/elarisdigitalsolutions"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-dotted text-muted-foreground hover:text-primary transition-colors"
+              style={{ textUnderlineOffset: 3 }}
+            >
+              Desarrollado por Elaris Digital Solutions.
+            </a>
           </p>
         </div>
       </div>
