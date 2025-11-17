@@ -5,6 +5,8 @@ export interface Product {
   image: string;
   description: string;
   specs: Record<string, string>;
+  code: string;
+  presentation: string;
 }
 
 export const products: Product[] = [
@@ -15,7 +17,9 @@ export const products: Product[] = [
     category: "Papel institucional",
     image: "/assets/ROJO-DOBLE-HOJA-ECONOMICO.jpeg",
     description: "Papel higiénico institucional de doble hoja en presentación económica, ideal para uso en empresas y negocios.",
-    specs: {}
+    specs: {},
+    code: "PT00000261",
+    presentation: "Paquete 6 unds x 1.3 kg aprox"
   },
   {
     name: "Naranja Doble Hoja",
@@ -23,7 +27,9 @@ export const products: Product[] = [
     category: "Papel institucional",
     image: "/assets/NARANJA-DOBLE-HOJA.jpeg",
     description: "Papel higiénico institucional de doble hoja con alta absorción y resistencia.",
-    specs: {}
+    specs: {},
+    code: "PT00000158",
+    presentation: "Paquete 6 unds x 1.4 kg aprox"
   },
   {
     name: "Papel Gofrado",
@@ -31,7 +37,9 @@ export const products: Product[] = [
     category: "Papel institucional",
     image: "/assets/PAPEL GOFRADO.jpeg",
     description: "Papel higiénico con textura gofrada para mayor suavidad y absorción.",
-    specs: {}
+    specs: {},
+    code: "PT00000156",
+    presentation: "Paquete 6 unds x 180 mtrs aprox c/u"
   },
   {
     name: "Papel Individual",
@@ -39,7 +47,9 @@ export const products: Product[] = [
     category: "Papel institucional",
     image: "/assets/PAPEL-INDIVIDUAL.jpeg",
     description: "Papel higiénico en presentación individual, perfecto para uso personal.",
-    specs: {}
+    specs: {},
+    code: "PT00000248",
+    presentation: "Opción 1: paquete 6 unds x 4 kg aprox c/u / Opción 2: paquete 6 unds x 5 kg aprox c/u"
   },
   {
     name: "Papel 500",
@@ -47,7 +57,9 @@ export const products: Product[] = [
     category: "Papel institucional",
     image: "/assets/PAPEL-500.jpeg",
     description: "Rollo de papel higiénico institucional de 500 hojas, rendimiento prolongado.",
-    specs: {}
+    specs: {},
+    code: "PT00000163",
+    presentation: "Paquete 6 unds x 500 mtrs aprox c/u"
   },
   {
     name: "Papel 550",
@@ -55,7 +67,9 @@ export const products: Product[] = [
     category: "Papel institucional",
     image: "/assets/PAPEL-550.jpeg",
     description: "Rollo de papel higiénico institucional de 550 hojas, máximo rendimiento.",
-    specs: {}
+    specs: {},
+    code: "PT00000164",
+    presentation: "Paquete 6 unds x 550 mtrs aprox c/u"
   },
   
   // Papel toalla
@@ -65,7 +79,9 @@ export const products: Product[] = [
     category: "Papel toalla",
     image: "/assets/PAPEL-TOALLA-INTERFOLIADO.jpeg",
     description: "Papel toalla interfoliado de alta absorción, ideal para dispensadores.",
-    specs: {}
+    specs: {},
+    code: "PT00000165",
+    presentation: "Caja 20 paq x 200 und c/u"
   },
   {
     name: "Papel Toalla Doble Precorte",
@@ -73,7 +89,9 @@ export const products: Product[] = [
     category: "Papel toalla",
     image: "/assets/PAPEL-TOALLA-DOBLE-PRE-CORTE.jpeg",
     description: "Papel toalla en rollo con doble hoja y precorte para fácil dispensación.",
-    specs: {}
+    specs: {},
+    code: "PT00000270",
+    presentation: "Paquete 6 unds x 4.8 kg aprox c/u"
   },
   {
     name: "Papel Toalla Ecológica Precorte",
@@ -81,7 +99,9 @@ export const products: Product[] = [
     category: "Papel toalla",
     image: "/assets/PAPEL-TOALLA-ECOLOGICA-PRE-CORTE.jpeg",
     description: "Papel toalla ecológica con precorte, amigable con el medio ambiente.",
-    specs: {}
+    specs: {},
+    code: "PT00000176",
+    presentation: "Paquete 6 unds x 4.8 kg aprox"
   },
   
   // Servilletas blancas
@@ -91,7 +111,9 @@ export const products: Product[] = [
     category: "Servilletas blancas",
     image: "/assets/CLASICA-X15.jpeg",
     description: "Servilleta blanca clásica en paquete de 15 unidades.",
-    specs: {}
+    specs: {},
+    code: "PT00000003",
+    presentation: "Plancha 15 paq x 100 grs c/u (1.6 kg aprox)"
   },
   {
     name: "Clásica x 18",
@@ -99,7 +121,9 @@ export const products: Product[] = [
     category: "Servilletas blancas",
     image: "/assets/CLASICA-X18.jpeg",
     description: "Servilleta blanca clásica en paquete de 18 unidades.",
-    specs: {}
+    specs: {},
+    code: "PT00000187",
+    presentation: "Plancha 18 paq x 65 grs c/u (1.3 kg aprox)"
   },
   {
     name: "Doblada",
@@ -107,7 +131,9 @@ export const products: Product[] = [
     category: "Servilletas blancas",
     image: "/assets/DOBLADA.jpeg",
     description: "Servilleta blanca predoblada para fácil uso.",
-    specs: {}
+    specs: {},
+    code: "PT00000001",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Golden 33 x 33",
@@ -115,7 +141,9 @@ export const products: Product[] = [
     category: "Servilletas blancas",
     image: "/assets/GOLDEN-33X33.jpeg",
     description: "Servilleta premium de 33x33 cm, calidad golden.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Granel",
@@ -123,7 +151,9 @@ export const products: Product[] = [
     category: "Servilletas blancas",
     image: "/assets/GRANEL.jpeg",
     description: "Servilletas blancas en presentación a granel para mayor rendimiento.",
-    specs: {}
+    specs: {},
+    code: "PT00000004",
+    presentation: "Paquete 1200 unds aprox"
   },
   {
     name: "Clásica Machu Picchu",
@@ -131,7 +161,9 @@ export const products: Product[] = [
     category: "Servilletas blancas",
     image: "/assets/CLASICA-MACHUPICHU.jpeg",
     description: "Servilleta clásica con motivo peruano Machu Picchu.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   
   // Servilletas con diseño
@@ -141,7 +173,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-CEBRAS.jpeg",
     description: "Servilleta con diseño de cebras, ideal para eventos temáticos.",
-    specs: {}
+    specs: {},
+    code: "SETS000018",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Manzanilla",
@@ -149,7 +183,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-MANZANILLA.jpeg",
     description: "Servilleta con diseño floral de manzanilla.",
-    specs: {}
+    specs: {},
+    code: "SETS000026",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Girasol",
@@ -157,7 +193,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-GIRASOL.jpeg",
     description: "Servilleta con diseño de girasoles vibrantes.",
-    specs: {}
+    specs: {},
+    code: "SETS000024",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Flor Grande",
@@ -165,7 +203,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-FLOR-GRANDE.jpeg",
     description: "Servilleta con diseño de flor grande elegante.",
-    specs: {}
+    specs: {},
+    code: "SETS000025",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Marco Dorado",
@@ -173,7 +213,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-MARCO-DORADO.jpeg",
     description: "Servilleta con elegante marco dorado para eventos especiales.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Marco Plateado",
@@ -181,7 +223,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-MARCO-PLATEADO.jpeg",
     description: "Servilleta con sofisticado marco plateado.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Frutal",
@@ -189,7 +233,9 @@ export const products: Product[] = [
     category: "Servilletas con diseño",
     image: "/assets/DISENO-FRUTAL.jpeg",
     description: "Servilleta con diseño frutal colorido y alegre.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   
   // Servilletas con colores
@@ -199,7 +245,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/PUNTOS-1.jpeg",
     description: "Servilleta con diseño de puntos coloridos estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000020",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Puntos 2",
@@ -207,7 +255,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/PUNTOS-2.jpeg",
     description: "Servilleta con diseño de puntos coloridos estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000021",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Cuadros",
@@ -215,7 +265,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/CUADROS.jpeg",
     description: "Servilleta con diseño de cuadros multicolor.",
-    specs: {}
+    specs: {},
+    code: "SETS000016",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Flores en L",
@@ -223,7 +275,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/FLORES-EN-L.jpeg",
     description: "Servilleta con diseño de flores en esquina tipo L.",
-    specs: {}
+    specs: {},
+    code: "SETS000015",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Líneas 1",
@@ -231,7 +285,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/LINEAS-1.jpeg",
     description: "Servilleta con diseño de líneas coloridas estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000019",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Líneas 2",
@@ -239,7 +295,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/LINEAS-2.jpeg",
     description: "Servilleta con diseño de líneas coloridas estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000022",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Pirotines",
@@ -247,7 +305,9 @@ export const products: Product[] = [
     category: "Servilletas con colores",
     image: "/assets/PIROTINES.jpeg",
     description: "Servilleta con diseño de pirotines festivos.",
-    specs: {}
+    specs: {},
+    code: "SETS000017",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   
   // Servilletas para eventos
@@ -257,7 +317,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/HAPPY-BIRTHDAY-PLATEADO.jpeg",
     description: "Servilleta de cumpleaños con diseño plateado elegante.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Happy Birthday Dorado",
@@ -265,7 +327,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/HAPPY-BIRTHDAY-DORADO.jpeg",
     description: "Servilleta de cumpleaños con diseño dorado sofisticado.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "50 Años",
@@ -273,7 +337,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/50-ANOS.jpeg",
     description: "Servilleta especial para celebración de 50 años.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "15 Años 1",
@@ -281,7 +347,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/QUINCE-ANOS-1.jpeg",
     description: "Servilleta para celebración de quinceañera estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "15 Años 2",
@@ -289,7 +357,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/15-ANOS-2.jpeg",
     description: "Servilleta para celebración de quinceañera estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Matrimonio Aro",
@@ -297,7 +367,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/MATRIMONIO-ARO.jpeg",
     description: "Servilleta de matrimonio con diseño de aros.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Matrimonio Joven",
@@ -305,7 +377,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/MATRIMONIO-JOVEN.jpeg",
     description: "Servilleta de matrimonio con diseño joven y moderno.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Matrimonio Clásico",
@@ -313,7 +387,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/MATRIMONIO-CLASICO.jpeg",
     description: "Servilleta de matrimonio con diseño clásico elegante.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Matrimonio Pareja",
@@ -321,7 +397,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/MATRIMONIO-PAREJA.jpeg",
     description: "Servilleta de matrimonio con diseño de pareja estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Matrimonio Pareja 2",
@@ -329,7 +407,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/MATRIMONIO-PAREJA-2.jpeg",
     description: "Servilleta de matrimonio con diseño de pareja estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Feliz Año Dorado",
@@ -337,7 +417,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/FELIZ-ANO-DORADO.jpeg",
     description: "Servilleta de Año Nuevo con diseño dorado festivo.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Copas Doradas Feliz Año",
@@ -345,7 +427,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/COPAS-DORADAS-FELIZ-ANO.jpeg",
     description: "Servilleta de Año Nuevo con copas doradas.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Copas Amarillas Feliz Año",
@@ -353,7 +437,9 @@ export const products: Product[] = [
     category: "Servilletas para eventos",
     image: "/assets/COPAS-AMARILLAS-FELIZ-ANO.jpeg",
     description: "Servilleta de Año Nuevo con copas amarillas brillantes.",
-    specs: {}
+    specs: {},
+    code: "XXXXXXXXXX",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   
   // Servilletas infantiles
@@ -363,7 +449,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/HAPPY-BIRTHDAY.jpeg",
     description: "Servilleta de cumpleaños infantil con diseño festivo.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Globos",
@@ -371,7 +459,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/GLOBOS.jpeg",
     description: "Servilleta infantil con diseño de globos coloridos.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Baby Shower Unisex",
@@ -379,7 +469,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/BABY-SHOWER-UNISEX.jpeg",
     description: "Servilleta para baby shower en colores neutros.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Princesa",
@@ -387,7 +479,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/PRINCESA.jpeg",
     description: "Servilleta infantil con diseño de princesa.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Baby Shower Niña",
@@ -395,7 +489,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/BABY-SHOWER-NINA.jpeg",
     description: "Servilleta para baby shower de niña en tonos rosados.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Bautizo Niña",
@@ -403,7 +499,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/BAUTIZO-NINA.jpeg",
     description: "Servilleta especial para bautizo de niña.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Bautizo Unisex",
@@ -411,7 +509,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/BAUTIZO-UNISEX.jpeg",
     description: "Servilleta para bautizo en diseño unisex.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Baby Shower Niño",
@@ -419,7 +519,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/BABY-SHOWER-NINO.jpeg",
     description: "Servilleta para baby shower de niño en tonos azules.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Bautizo Niño",
@@ -427,7 +529,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/BAUTIZO-NINO.jpeg",
     description: "Servilleta especial para bautizo de niño.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Payaso 1",
@@ -435,7 +539,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/PAYASO-1.jpeg",
     description: "Servilleta infantil con diseño de payaso estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Payaso 2",
@@ -443,7 +549,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/PAYASO-2.jpeg",
     description: "Servilleta infantil con diseño de payaso estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Payaso 3",
@@ -451,7 +559,9 @@ export const products: Product[] = [
     category: "Servilletas infantiles",
     image: "/assets/PAYASO-3.jpeg",
     description: "Servilleta infantil con diseño de payaso estilo 3.",
-    specs: {}
+    specs: {},
+    code: "SETS000030",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   
   // Servilletas navideñas
@@ -461,7 +571,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/VELA-ROJA.jpeg",
     description: "Servilleta navideña con diseño de vela roja.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Vela Antigua",
@@ -469,7 +581,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/VELA-ANTIGUA.jpeg",
     description: "Servilleta navideña con diseño de vela antigua.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Pesebre 1",
@@ -477,7 +591,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PESEBRE-1.jpeg",
     description: "Servilleta navideña con escena del pesebre estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Pesebre 2",
@@ -485,7 +601,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PESEBRE-2.jpeg",
     description: "Servilleta navideña con escena del pesebre estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Papá Noel con Chimenea",
@@ -493,7 +611,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PAPA-NOEL-CON-CHIMENEA.jpeg",
     description: "Servilleta navideña con Papá Noel junto a la chimenea.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Papá Noel con Cara",
@@ -501,7 +621,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PAPA-NOEL-CON-CARA.jpeg",
     description: "Servilleta navideña con rostro de Papá Noel.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Papá Noel con Árbol",
@@ -509,7 +631,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PAPA-NOEL-CON-ARBOL.jpeg",
     description: "Servilleta navideña con Papá Noel y árbol de Navidad.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Papá Noel con Muñeco",
@@ -517,7 +641,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PAPA-NOEL-CON-MUNECO.jpeg",
     description: "Servilleta navideña con Papá Noel y muñeco de nieve.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Papá Noel con Reno",
@@ -525,7 +651,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PAPA-NOEL-CON-RENO.jpeg",
     description: "Servilleta navideña con Papá Noel y reno.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Papá Noel y Mamanuela",
@@ -533,7 +661,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PAPA-NOEL-Y-MAMA-NOELA.jpeg",
     description: "Servilleta navideña con Papá Noel y Mamá Noel.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Merry Christmas",
@@ -541,7 +671,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/MERRY-CHRISTMAS.jpeg",
     description: "Servilleta navideña con mensaje Merry Christmas.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Muñeco de Nieve 1",
@@ -549,7 +681,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/MUNECO-DE-NIEVE-1.jpeg",
     description: "Servilleta navideña con muñeco de nieve estilo 1.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Muñeco de Nieve 2",
@@ -557,7 +691,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/MUNECO-DE-NIEVE-2.jpeg",
     description: "Servilleta navideña con muñeco de nieve estilo 2.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
   {
     name: "Pingüinos Navideños",
@@ -565,7 +701,9 @@ export const products: Product[] = [
     category: "Servilletas navideñas",
     image: "/assets/PINGUINOS-NAVIDENOS.jpeg",
     description: "Servilleta navideña con pingüinos festivos.",
-    specs: {}
+    specs: {},
+    code: "SETS000029",
+    presentation: "Plancha 6 paq x 100 und dob"
   },
 ];
 

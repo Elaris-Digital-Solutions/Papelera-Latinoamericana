@@ -146,6 +146,16 @@ const Productos = () => {
                             <p className="text-xs text-muted-foreground mt-1">
                               {product.category}
                             </p>
+                            {product.code && (
+                              <p className="text-xs text-muted-foreground mt-1">
+                                <span className="font-medium">Código:</span> {product.code}
+                              </p>
+                            )}
+                            {product.presentation && (
+                              <p className="text-xs text-muted-foreground mt-1">
+                                <span className="font-medium">Presentación:</span> {product.presentation}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </Link>

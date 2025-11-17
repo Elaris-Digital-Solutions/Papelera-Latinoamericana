@@ -139,6 +139,21 @@ const ProductoDetalle = () => {
                 <h2 className="text-xl font-bold text-foreground mb-4">
                   Especificaciones
                 </h2>
+                {/* Mostrar código y presentación si existen */}
+                {(product.code || product.presentation) && (
+                  <div className="mb-3 space-y-1">
+                    {product.code && (
+                      <div className="text-sm text-muted-foreground">
+                        <span className="font-medium">Código:</span> {product.code}
+                      </div>
+                    )}
+                    {product.presentation && (
+                      <div className="text-sm text-muted-foreground">
+                        <span className="font-medium">Presentación:</span> {product.presentation}
+                      </div>
+                    )}
+                  </div>
+                )}
                 {Object.keys(product.specs).length > 0 ? (
                   <dl className="space-y-3">
                     {Object.entries(product.specs).map(([key, value]) => (
