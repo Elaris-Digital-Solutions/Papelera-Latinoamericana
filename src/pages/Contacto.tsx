@@ -5,7 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { fadeInUp, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
+import {
+  fadeInUp,
+  scaleIn,
+  staggerContainer,
+  viewportConfig,
+  heroChild,
+  heroContainer,
+} from "@/lib/motion";
 
 const Contacto = () => {
   const { toast } = useToast();
@@ -54,7 +61,43 @@ const Contacto = () => {
   };
 
   return (
-    <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
+    <>
+      <motion.section
+        className="relative bg-cover bg-center min-h-screen flex items-center"
+        style={{ backgroundImage: "url('/assets/Imagen_hero.png')" }}
+        initial="hidden"
+        whileInView="show"
+        viewport={viewportConfig}
+      >
+        {/* Overlay gradient dark bluish */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/60 to-sky-900/50 z-10" />
+
+        {/* Contenedor del contenido con z-index encima del overlay */}
+        <div className="relative z-20 flex w-full h-full items-center justify-center">
+          <motion.div className="container mx-auto px-4 md:px-6 lg:px-8 flex justify-center" variants={heroContainer}>
+            <motion.div className="max-w-4xl w-full text-center" variants={heroChild}>
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4"
+                variants={heroChild}
+              >
+                Contáctanos
+              </motion.h1>
+
+              <motion.p className="text-lg sm:text-xl md:text-2xl text-slate-100 mb-8" variants={heroChild}>
+                Estamos listos para atender tus consultas, pedidos y cotizaciones en todo el Perú.
+              </motion.p>
+
+              <motion.div variants={heroChild}>
+                <a href="#formulario" className="bg-sky-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-sky-700 transition inline-block">
+                  Ir al formulario
+                </a>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div variants={fadeInUp}>
@@ -139,7 +182,7 @@ const Contacto = () => {
             </motion.div>
 
             {/* Contact Form */}
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={fadeInUp} id="formulario">
               <h2 className="text-2xl font-bold text-foreground mb-8">
                 Envíanos un Mensaje
               </h2>
@@ -213,6 +256,7 @@ const Contacto = () => {
         </div>
       </div>
     </motion.section>
+    </>
   );
 };
 
