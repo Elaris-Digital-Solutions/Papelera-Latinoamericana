@@ -1,4 +1,3 @@
-import { categories, products } from "@/data/products";
 import { Link } from "react-router-dom";
 import { Search, Package } from "lucide-react";
 import { useState, useMemo } from "react";
@@ -6,26 +5,32 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { motion } from "framer-motion";
 import { fadeInUp, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
+import { useCategoriesQuery, useProductsQuery } from "@/hooks/useProducts";
+import { CatalogProduct } from "@/services/products";
 
 const Productos = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const { data: products = [], isLoading: productsLoading } = useProductsQuery();
+  const { data: categoriesData = [], isLoading: categoriesLoading } = useCategoriesQuery();
 
   const filteredProducts = useMemo(() => {
-    return products.filter(product => {
+    return products.filter((product) => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+      const matchesCategory =
+        selectedCategory === "all" || product.category.slug === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [products, searchTerm, selectedCategory]);
 
   const groupedProducts = useMemo(() => {
-    const grouped: { [key: string]: typeof products } = {};
-    filteredProducts.forEach(product => {
-      if (!grouped[product.category]) {
-        grouped[product.category] = [];
+    const grouped: Record<string, CatalogProduct[]> = {};
+    filteredProducts.forEach((product) => {
+      const key = product.category.nombre;
+      if (!grouped[key]) {
+        grouped[key] = [];
       }
-      grouped[product.category].push(product);
+      grouped[key].push(product);
     });
     return grouped;
   }, [filteredProducts]);
@@ -89,13 +94,20 @@ const Productos = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todas las categorías</SelectItem>
-                {categories.map(category => (
-                  <SelectItem key={category} value={category}>{category}</SelectItem>
+                {categoriesLoading && (
+                  <SelectItem value="loading" disabled>
+                    Cargando categorías...
+                  </SelectItem>
+                )}
+                {categoriesData.map((category) => (
+                  <SelectItem key={category.id} value={category.slug}>
+                    {category.nombre}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-          {filteredProducts.length > 0 && (
+          {!productsLoading && filteredProducts.length > 0 && (
             <p className="text-sm text-muted-foreground mt-4 text-center">
               Mostrando {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''}
             </p>
@@ -103,7 +115,17 @@ const Productos = () => {
         </motion.div>
 
         {/* Categories and Products */}
-        {Object.keys(groupedProducts).length > 0 ? (
+        {productsLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <div key={`skeleton-${index}`} className="bg-card border border-dashed border-border rounded-lg p-4 animate-pulse">
+                <div className="aspect-square bg-muted rounded mb-4" />
+                <div className="h-4 bg-muted rounded w-3/4 mb-2" />
+                <div className="h-3 bg-muted rounded w-1/2" />
+              </div>
+            ))}
+          </div>
+        ) : Object.keys(groupedProducts).length > 0 ? (
           <div className="space-y-16">
             {Object.entries(groupedProducts).map(([category, categoryProducts]) => (
               <motion.section
@@ -134,7 +156,7 @@ const Productos = () => {
                         <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 h-full">
                           <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-8">
                             <img
-                              src={product.image}
+                              src={product.imageUrl ?? "/assets/productos.png"}
                               alt={product.name}
                               className="h-full w-full object-contain"
                             />
@@ -144,7 +166,7 @@ const Productos = () => {
                               {product.name}
                             </h3>
                             <p className="text-xs text-muted-foreground mt-1">
-                              {product.category}
+                              {product.category.nombre}
                             </p>
                             {product.code && (
                               <p className="text-xs text-muted-foreground mt-1">

@@ -1,15 +1,15 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getProductBySlug, products } from "@/data/products";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { fadeInUp, scaleIn, staggerContainer, viewportConfig } from "@/lib/motion";
+import { useProductQuery, useProductsQuery } from "@/hooks/useProducts";
 
 const ProductoDetalle = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -20,12 +20,12 @@ const ProductoDetalle = () => {
     phone: "",
     message: ""
   });
+  const { data: product, isLoading: productLoading } = useProductQuery(slug);
+  const { data: allProducts = [] } = useProductsQuery();
   
   if (!slug) {
     return <Navigate to="/productos" replace />;
   }
-
-  const product = getProductBySlug(slug);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ const ProductoDetalle = () => {
       return;
     }
 
-    const message = `Hola, me gustaría solicitar una cotización para:\n\nProducto: ${product?.name}\nCategoría: ${product?.category}\n\nMis datos:\nNombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.phone}\n\nMensaje adicional:\n${formData.message || "Sin mensaje adicional"}`;
+    const message = `Hola, me gustaría solicitar una cotización para:\n\nProducto: ${product?.name}\nCategoría: ${product?.category.nombre}\n\nMis datos:\nNombre: ${formData.name}\nEmail: ${formData.email}\nTeléfono: ${formData.phone}\n\nMensaje adicional:\n${formData.message || "Sin mensaje adicional"}`;
     
     const whatsappUrl = `https://wa.me/51999999999?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -51,6 +51,18 @@ const ProductoDetalle = () => {
 
     setFormData({ name: "", email: "", phone: "", message: "" });
   };
+
+  if (productLoading) {
+    return (
+      <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-muted-foreground">Cargando producto...</p>
+          </div>
+        </div>
+      </motion.section>
+    );
+  }
 
   if (!product) {
     return (
@@ -72,22 +84,33 @@ const ProductoDetalle = () => {
     );
   }
 
-  // Carrusel de productos relacionados
-  const sameCat = products.filter(p => p.category === product.category && p.slug !== product.slug);
-  let items = [...sameCat];
-  if (items.length < 6) {
-    const firstCat = products[0]?.category;
-    const fillCat = products.filter(p => p.category === firstCat && p.slug !== product.slug && !items.some(i => i.slug === p.slug));
-    items = [...items, ...fillCat].slice(0, 6);
-  } else {
-    items = items.slice(0, 6);
-  }
+  const relatedItems = useMemo(() => {
+    if (!product || allProducts.length === 0) return [];
 
-  // Solo mostrar los primeros 4 productos relacionados
+    const sameCategory = allProducts.filter(
+      (p) => p.category.id === product.category.id && p.slug !== product.slug
+    );
+
+    if (sameCategory.length >= 6) {
+      return sameCategory.slice(0, 6);
+    }
+
+    const fallbackCategoryId =
+      allProducts.find((p) => p.category.id !== product.category.id)?.category.id ?? product.category.id;
+
+    const filler = allProducts.filter(
+      (p) =>
+        p.category.id === fallbackCategoryId &&
+        p.slug !== product.slug &&
+        !sameCategory.some((item) => item.slug === p.slug)
+    );
+
+    return [...sameCategory, ...filler].slice(0, 6);
+  }, [allProducts, product]);
+
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-  const groupSize = 4;
-  const maxIndex = Math.max(0, items.length - 1);
+  const maxIndex = Math.max(0, relatedItems.length - 1);
+  const currentRelated = relatedItems[carouselIndex] ?? relatedItems[0];
   const handlePrev = () => setCarouselIndex(i => (i === 0 ? maxIndex : i - 1));
   const handleNext = () => setCarouselIndex(i => (i === maxIndex ? 0 : i + 1));
 
@@ -110,7 +133,7 @@ const ProductoDetalle = () => {
             {/* Product Image */}
             <motion.div className="bg-white border border-gray-300 rounded-lg p-8 flex items-center justify-center aspect-square" variants={scaleIn}>
               <img
-                src={product.image}
+                src={product.imageUrl ?? "/assets/productos.png"}
                 alt={product.name}
                 className="h-full w-full object-contain"
               />
@@ -120,7 +143,7 @@ const ProductoDetalle = () => {
             <motion.div variants={fadeInUp}>
               <div className="mb-4">
                 <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full">
-                  {product.category}
+                  {product.category.nombre}
                 </span>
               </div>
 
@@ -154,20 +177,9 @@ const ProductoDetalle = () => {
                     )}
                   </div>
                 )}
-                {Object.keys(product.specs).length > 0 ? (
-                  <dl className="space-y-3">
-                    {Object.entries(product.specs).map(([key, value]) => (
-                      <div key={key} className="flex justify-between">
-                        <dt className="text-muted-foreground">{key}:</dt>
-                        <dd className="font-medium text-foreground">{value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                ) : (
-                  <p className="text-muted-foreground">
-                    Consulta especificaciones técnicas con nuestro equipo de ventas.
-                  </p>
-                )}
+                <p className="text-muted-foreground">
+                  Consulta especificaciones técnicas con nuestro equipo de ventas.
+                </p>
               </motion.div>
 
             </motion.div>
@@ -248,57 +260,58 @@ const ProductoDetalle = () => {
         </div>
       </div>
 
-      {/* También te podrían interesar */}
-      <motion.section className="py-16" variants={fadeInUp} initial="hidden" whileInView="show" viewport={viewportConfig}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <motion.div className="text-center mb-10" variants={fadeInUp}>
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">También te podrían interesar</h2>
-              <p className="text-muted-foreground">Más productos de la categoría <span className="font-semibold text-primary">{product.category}</span></p>
-            </motion.div>
-            <div className="flex items-center justify-center gap-6">
-              {/* Mobile: Carrusel con flechas */}
-              <div className="block sm:hidden w-full">
-                <div className="flex items-center justify-center gap-4">
-                  <button type="button" aria-label="Anterior" onClick={handlePrev} className="p-2 rounded-full bg-card border border-border hover:bg-primary/10 transition">
-                    <ChevronLeft className="h-6 w-6 text-primary" />
-                  </button>
-                  <motion.div variants={scaleIn} className="min-w-[220px] max-w-xs flex-shrink-0 mx-auto">
-                    <Link to={`/productos/${items[carouselIndex].slug}`} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all block">
-                      <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-6">
-                        <img src={items[carouselIndex].image} alt={items[carouselIndex].name} className="h-full w-full object-contain" />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">{items[carouselIndex].name}</h3>
-                        <p className="text-sm text-muted-foreground">{items[carouselIndex].category}</p>
-                      </div>
-                    </Link>
-                  </motion.div>
-                  <button type="button" aria-label="Siguiente" onClick={handleNext} className="p-2 rounded-full bg-card border border-border hover:bg-primary/10 transition">
-                    <ChevronRight className="h-6 w-6 text-primary" />
-                  </button>
+      {relatedItems.length > 0 && currentRelated && (
+        <motion.section className="py-16" variants={fadeInUp} initial="hidden" whileInView="show" viewport={viewportConfig}>
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              <motion.div className="text-center mb-10" variants={fadeInUp}>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">También te podrían interesar</h2>
+                <p className="text-muted-foreground">Más productos de la categoría <span className="font-semibold text-primary">{product.category.nombre}</span></p>
+              </motion.div>
+              <div className="flex items-center justify-center gap-6">
+                {/* Mobile: Carrusel con flechas */}
+                <div className="block sm:hidden w-full">
+                  <div className="flex items-center justify-center gap-4">
+                    <button type="button" aria-label="Anterior" onClick={handlePrev} className="p-2 rounded-full bg-card border border-border hover:bg-primary/10 transition">
+                      <ChevronLeft className="h-6 w-6 text-primary" />
+                    </button>
+                    <motion.div variants={scaleIn} className="min-w-[220px] max-w-xs flex-shrink-0 mx-auto">
+                      <Link to={`/productos/${currentRelated.slug}`} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all block">
+                        <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-6">
+                          <img src={currentRelated.imageUrl ?? "/assets/productos.png"} alt={currentRelated.name} className="h-full w-full object-contain" />
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">{currentRelated.name}</h3>
+                          <p className="text-sm text-muted-foreground">{currentRelated.category.nombre}</p>
+                        </div>
+                      </Link>
+                    </motion.div>
+                    <button type="button" aria-label="Siguiente" onClick={handleNext} className="p-2 rounded-full bg-card border border-border hover:bg-primary/10 transition">
+                      <ChevronRight className="h-6 w-6 text-primary" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              {/* Desktop: 4 productos fijos */}
-              <div className="hidden sm:flex items-center justify-center gap-6 w-full">
-                {items.slice(0, 4).map((p) => (
-                  <motion.div key={p.slug} variants={scaleIn} className="min-w-[220px] max-w-xs flex-shrink-0">
-                    <Link to={`/productos/${p.slug}`} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all block">
-                      <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-6">
-                        <img src={p.image} alt={p.name} className="h-full w-full object-contain" />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">{p.name}</h3>
-                        <p className="text-sm text-muted-foreground">{p.category}</p>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
+                {/* Desktop: 4 productos fijos */}
+                <div className="hidden sm:flex items-center justify-center gap-6 w-full">
+                  {relatedItems.slice(0, 4).map((p) => (
+                    <motion.div key={p.slug} variants={scaleIn} className="min-w-[220px] max-w-xs flex-shrink-0">
+                      <Link to={`/productos/${p.slug}`} className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all block">
+                        <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-6">
+                          <img src={p.imageUrl ?? "/assets/productos.png"} alt={p.name} className="h-full w-full object-contain" />
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">{p.name}</h3>
+                          <p className="text-sm text-muted-foreground">{p.category.nombre}</p>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </motion.section>
+        </motion.section>
+      )}
     </motion.section>
   );
 };

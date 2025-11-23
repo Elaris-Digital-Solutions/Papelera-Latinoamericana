@@ -2,12 +2,11 @@ import Hero from "@/components/Hero";
 import { Building2, Users, Award, MapPin, Shield, Zap, Compass } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { products } from "@/data/products";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   fadeInUp,
@@ -16,6 +15,7 @@ import {
   staggerContainer,
   viewportConfig,
 } from "@/lib/motion";
+import { useProductsQuery } from "@/hooks/useProducts";
 
 const Home = () => {
   const { toast } = useToast();
@@ -25,8 +25,8 @@ const Home = () => {
     phone: "",
     message: ""
   });
-
-  const featuredProducts = products.slice(0, 3);
+  const { data: products = [], isLoading: productsLoading } = useProductsQuery();
+  const featuredProducts = useMemo(() => products.slice(0, 3), [products]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,35 +142,54 @@ const Home = () => {
             </p>
 
             {/* Featured Products Preview */}
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-              variants={staggerContainer}
-            >
-              {featuredProducts.map((product, index) => (
-                <motion.div key={product.slug} variants={scaleIn} custom={index}>
-                  <Link
-                    to={`/productos/${product.slug}`}
-                    className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all"
+            {productsLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={`placeholder-${index}`}
+                    className="h-full rounded-lg border border-dashed border-border p-8 animate-pulse bg-card"
                   >
-                    <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-8">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">
-                        {product.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {product.category}
-                      </p>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
+                    <div className="h-48 bg-muted rounded mb-4" />
+                    <div className="h-4 bg-muted rounded w-3/4 mb-2" />
+                    <div className="h-3 bg-muted rounded w-1/2" />
+                  </div>
+                ))}
+              </div>
+            ) : featuredProducts.length > 0 ? (
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+                variants={staggerContainer}
+              >
+                {featuredProducts.map((product, index) => (
+                  <motion.div key={product.slug} variants={scaleIn} custom={index}>
+                    <Link
+                      to={`/productos/${product.slug}`}
+                      className="group bg-card border border-border rounded-lg overflow-hidden hover:shadow-lg transition-all"
+                    >
+                      <div className="aspect-square bg-white border border-gray-300 flex items-center justify-center p-8">
+                        <img
+                          src={product.imageUrl ?? "/assets/productos.png"}
+                          alt={product.name}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                      <div className="p-4">
+                        <h3 className="font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">
+                          {product.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {product.category.nombre}
+                        </p>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <p className="text-muted-foreground mb-12">
+                Los productos destacados estarán disponibles en breve.
+              </p>
+            )}
 
             <motion.div className="flex items-center justify-center gap-4" variants={fadeInUp}>
               <Link to="/productos">
