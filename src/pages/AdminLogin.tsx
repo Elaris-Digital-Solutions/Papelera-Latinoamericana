@@ -1,14 +1,42 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { supabaseClient } from "@/services/supabaseClient";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { session, loading: authLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fromState = (location.state as { from?: string } | null)?.from;
+
+  useEffect(() => {
+    if (!authLoading && session) {
+      navigate(fromState || "/admin/panel", { replace: true });
+    }
+  }, [authLoading, session, navigate, fromState]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/admin/panel");
+    setError(null);
+    setSubmitting(true);
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError("Credenciales inválidas. Verifica tus datos.");
+      setSubmitting(false);
+      return;
+    }
+
+    navigate(fromState || "/admin/panel", { replace: true });
   };
 
   return (
@@ -50,11 +78,17 @@ export default function AdminLogin() {
                 placeholder="••••••••"
               />
             </div>
+            {error && (
+              <p className="text-sm text-red-600" role="alert">
+                {error}
+              </p>
+            )}
             <button
               type="submit"
-              className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-800 transition"
+              disabled={submitting}
+              className="w-full bg-blue-700 text-white font-semibold py-2 rounded hover:bg-blue-800 transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Iniciar sesión
+              {submitting ? "Validando..." : "Iniciar sesión"}
             </button>
           </form>
         </div>

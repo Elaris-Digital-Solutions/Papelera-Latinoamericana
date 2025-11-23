@@ -22,6 +22,35 @@ const ProductoDetalle = () => {
   });
   const { data: product, isLoading: productLoading } = useProductQuery(slug);
   const { data: allProducts = [] } = useProductsQuery();
+  const relatedItems = useMemo(() => {
+    if (!product || allProducts.length === 0) return [];
+
+    const sameCategory = allProducts.filter(
+      (p) => p.category.id === product.category.id && p.slug !== product.slug
+    );
+
+    if (sameCategory.length >= 6) {
+      return sameCategory.slice(0, 6);
+    }
+
+    const fallbackCategoryId =
+      allProducts.find((p) => p.category.id !== product.category.id)?.category.id ?? product.category.id;
+
+    const filler = allProducts.filter(
+      (p) =>
+        p.category.id === fallbackCategoryId &&
+        p.slug !== product.slug &&
+        !sameCategory.some((item) => item.slug === p.slug)
+    );
+
+    return [...sameCategory, ...filler].slice(0, 6);
+  }, [allProducts, product]);
+
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const maxIndex = Math.max(0, relatedItems.length - 1);
+  const currentRelated = relatedItems[carouselIndex] ?? relatedItems[0];
+  const handlePrev = () => setCarouselIndex((i) => (i === 0 ? maxIndex : i - 1));
+  const handleNext = () => setCarouselIndex((i) => (i === maxIndex ? 0 : i + 1));
   
   if (!slug) {
     return <Navigate to="/productos" replace />;
@@ -84,35 +113,7 @@ const ProductoDetalle = () => {
     );
   }
 
-  const relatedItems = useMemo(() => {
-    if (!product || allProducts.length === 0) return [];
-
-    const sameCategory = allProducts.filter(
-      (p) => p.category.id === product.category.id && p.slug !== product.slug
-    );
-
-    if (sameCategory.length >= 6) {
-      return sameCategory.slice(0, 6);
-    }
-
-    const fallbackCategoryId =
-      allProducts.find((p) => p.category.id !== product.category.id)?.category.id ?? product.category.id;
-
-    const filler = allProducts.filter(
-      (p) =>
-        p.category.id === fallbackCategoryId &&
-        p.slug !== product.slug &&
-        !sameCategory.some((item) => item.slug === p.slug)
-    );
-
-    return [...sameCategory, ...filler].slice(0, 6);
-  }, [allProducts, product]);
-
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const maxIndex = Math.max(0, relatedItems.length - 1);
-  const currentRelated = relatedItems[carouselIndex] ?? relatedItems[0];
-  const handlePrev = () => setCarouselIndex(i => (i === 0 ? maxIndex : i - 1));
-  const handleNext = () => setCarouselIndex(i => (i === maxIndex ? 0 : i + 1));
+  
 
   return (
     <motion.section className="py-16 md:py-24" variants={fadeInUp} initial="hidden" animate="show">

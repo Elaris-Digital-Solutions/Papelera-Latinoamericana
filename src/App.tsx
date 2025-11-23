@@ -15,6 +15,8 @@ import Contacto from "./pages/Contacto";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPanel from "./pages/AdminPanel";
+import RequireAdminAuth from "@/components/RequireAdminAuth";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const queryClient = new QueryClient();
 
@@ -30,29 +32,38 @@ const ScrollToTop = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/historia" element={<Historia />} />
-            <Route path="/mision-vision" element={<MisionVision />} />
-            <Route path="/cobertura" element={<Cobertura />} />
-            <Route path="/productos" element={<Productos />} />
-            <Route path="/productos/:slug" element={<ProductoDetalle />} />
-            <Route path="/contacto" element={<Contacto />} />
-            {/* Rutas administrativas */}
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin/panel" element={<AdminPanel />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Layout>
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/historia" element={<Historia />} />
+              <Route path="/mision-vision" element={<MisionVision />} />
+              <Route path="/cobertura" element={<Cobertura />} />
+              <Route path="/productos" element={<Productos />} />
+              <Route path="/productos/:slug" element={<ProductoDetalle />} />
+              <Route path="/contacto" element={<Contacto />} />
+              {/* Rutas administrativas */}
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route
+                path="/admin/panel"
+                element={
+                  <RequireAdminAuth>
+                    <AdminPanel />
+                  </RequireAdminAuth>
+                }
+              />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

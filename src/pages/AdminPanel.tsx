@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useProductsQuery } from "@/hooks/useProducts";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminPanel() {
   const { data: products = [], isLoading, error } = useProductsQuery();
+  const { toast } = useToast();
+  const { user, signOut } = useAuth();
+  const [signingOut, setSigningOut] = useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      setSigningOut(true);
+      await signOut();
+      toast({ title: "Sesión cerrada" });
+    } catch (err) {
+      toast({
+        title: "No se pudo cerrar sesión",
+        description: err instanceof Error ? err.message : "Inténtalo nuevamente",
+        variant: "destructive",
+      });
+    } finally {
+      setSigningOut(false);
+    }
+  };
 
   const renderStatus = () => {
     if (isLoading) {
@@ -91,9 +112,23 @@ export default function AdminPanel() {
   return (
     <div className="min-h-screen bg-blue-50">
       <header className="bg-white/90 shadow py-6 px-8 mb-8 rounded-b-xl">
-        <h2 className="text-2xl font-bold text-blue-700">
-          Panel administrativo – Productos Palasac
-        </h2>
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-blue-700">
+              Panel administrativo – Productos Palasac
+            </h2>
+            <p className="text-sm text-blue-600 mt-1">
+              Sesión iniciada como <span className="font-semibold">{user?.email ?? "Administrador"}</span>
+            </p>
+          </div>
+          <button
+            onClick={handleSignOut}
+            disabled={signingOut}
+            className="self-start inline-flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition disabled:opacity-60"
+          >
+            {signingOut ? "Cerrando sesión..." : "Cerrar sesión"}
+          </button>
+        </div>
       </header>
       <main className="px-8 pb-12">
         <div className="overflow-x-auto">
