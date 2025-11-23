@@ -15,7 +15,7 @@ export interface ProductRecord {
   codigo: string | null;
   imagen_url: string | null;
   categoria_id: string;
-  categoria?: CategoryRecord[] | null;
+  categoria?: CategoryRecord | CategoryRecord[] | null;
 }
 
 export interface CatalogProduct {
@@ -30,12 +30,12 @@ export interface CatalogProduct {
 }
 
 const mapProduct = (record: ProductRecord): CatalogProduct => {
-  const firstCategory =
-    Array.isArray(record.categoria) && record.categoria.length > 0
-      ? record.categoria[0]
-      : null;
+  const categoryData = record.categoria;
+  const normalizedCategory = Array.isArray(categoryData)
+    ? categoryData[0] ?? null
+    : categoryData ?? null;
 
-  const fallbackCategory: CategoryRecord = firstCategory ?? {
+  const fallbackCategory: CategoryRecord = normalizedCategory ?? {
     id: record.categoria_id,
     nombre: "Sin categoría",
     slug: "sin-categoria",
