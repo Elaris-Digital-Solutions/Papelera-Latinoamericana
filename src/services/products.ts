@@ -29,6 +29,15 @@ export interface CatalogProduct {
   category: CategoryRecord;
 }
 
+export interface ProductUpdateInput {
+  nombre?: string;
+  descripcion?: string | null;
+  presentacion?: string | null;
+  codigo?: string | null;
+  categoria_id?: string;
+  imagen_url?: string | null;
+}
+
 const mapProduct = (record: ProductRecord): CatalogProduct => {
   const categoryData = record.categoria;
   const normalizedCategory = Array.isArray(categoryData)
@@ -94,4 +103,21 @@ export const fetchCategories = async (): Promise<CategoryRecord[]> => {
 
   if (error) throw error;
   return data ?? [];
+};
+
+export const updateProduct = async (id: string, payload: ProductUpdateInput): Promise<CatalogProduct> => {
+  const { data, error } = await supabaseClient
+    .from("productos")
+    .update(payload)
+    .eq("id", id)
+    .select(productSelect)
+    .single();
+
+  if (error) throw error;
+  return mapProduct(data);
+};
+
+export const deleteProduct = async (id: string): Promise<void> => {
+  const { error } = await supabaseClient.from("productos").delete().eq("id", id);
+  if (error) throw error;
 };
