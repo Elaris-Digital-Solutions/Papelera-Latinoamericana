@@ -7,6 +7,22 @@ export interface CategoryRecord {
   slug: string;
 }
 
+export interface CategoryCreateInput {
+  nombre: string;
+  slug: string;
+}
+
+export interface CategoryUpdateInput {
+  nombre?: string;
+  slug?: string;
+}
+
+export interface CategoryConflictRecord {
+  id: string;
+  nombre: string;
+  slug: string;
+}
+
 export interface ProductRecord {
   id: string;
   nombre: string;
@@ -118,6 +134,37 @@ export const fetchCategories = async (): Promise<CategoryRecord[]> => {
   return data ?? [];
 };
 
+export const createCategory = async (payload: CategoryCreateInput): Promise<CategoryRecord> => {
+  const { data, error } = await supabaseClient
+    .from("categorias")
+    .insert([payload])
+    .select("id, nombre, slug")
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const updateCategory = async (
+  id: string,
+  payload: CategoryUpdateInput,
+): Promise<CategoryRecord> => {
+  const { data, error } = await supabaseClient
+    .from("categorias")
+    .update(payload)
+    .eq("id", id)
+    .select("id, nombre, slug")
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+export const deleteCategory = async (id: string): Promise<void> => {
+  const { error } = await supabaseClient.from("categorias").delete().eq("id", id);
+  if (error) throw error;
+};
+
 export const createProduct = async (payload: ProductCreateInput): Promise<CatalogProduct> => {
   const { data, error } = await supabaseClient
     .from("productos")
@@ -181,4 +228,31 @@ export const findProductConflicts = async ({
   const { data, error } = await query.or(filters.join(","));
   if (error) throw error;
   return (data ?? []) as ProductConflictRecord[];
+};
+
+export const findCategoryConflicts = async ({
+  slug,
+  nombre,
+  excludeId,
+}: {
+  slug: string;
+  nombre?: string;
+  excludeId?: string;
+}): Promise<CategoryConflictRecord[]> => {
+  const normalizedSlug = slug.trim().toLowerCase();
+  const normalizedName = nombre?.trim();
+
+  const filters: string[] = [`slug.eq.${normalizedSlug}`];
+  if (normalizedName) {
+    filters.push(`nombre.eq.${normalizedName}`);
+  }
+
+  let query = supabaseClient.from("categorias").select("id, nombre, slug");
+  if (excludeId) {
+    query = query.neq("id", excludeId);
+  }
+
+  const { data, error } = await query.or(filters.join(","));
+  if (error) throw error;
+  return (data ?? []) as CategoryConflictRecord[];
 };

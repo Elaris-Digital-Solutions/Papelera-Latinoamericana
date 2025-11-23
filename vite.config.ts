@@ -1,9 +1,9 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 // simple development-only plugin to avoid "Cannot find name 'componentTagger'" error
-function componentTagger(): any {
+function componentTagger(): Plugin {
   return {
     name: "component-tagger",
   };
