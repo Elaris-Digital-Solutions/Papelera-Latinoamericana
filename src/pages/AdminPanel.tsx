@@ -19,7 +19,7 @@ import {
   updateCategory,
   updateProduct,
 } from "@/services/products";
-import { uploadProductImage } from "@/services/cloudinary";
+import { deleteCloudinaryAssetByUrl, uploadProductImage } from "@/services/cloudinary";
 import { slugify } from "@/lib/utils";
 
 interface ProductFormState {
@@ -453,11 +453,14 @@ export default function AdminPanel() {
     if (!conflictsOk) return;
 
     let finalImageUrl = formState.imageUrl.trim() || null;
+    const previousImageUrl = editorMode === "edit" ? selectedProduct?.imageUrl ?? null : null;
+    let uploadedNewImage = false;
 
     if (imageFile) {
       try {
         setIsUploadingImage(true);
         finalImageUrl = await uploadProductImage(imageFile);
+        uploadedNewImage = true;
       } catch (uploadError) {
         toast({
           title: "No se pudo subir la imagen",
@@ -484,6 +487,26 @@ export default function AdminPanel() {
         await createMutation.mutateAsync({ ...payload, slug });
       } else if (selectedProduct) {
         await updateMutation.mutateAsync({ id: selectedProduct.id, updates: payload });
+      }
+
+      if (
+        uploadedNewImage &&
+        previousImageUrl &&
+        finalImageUrl &&
+        previousImageUrl.trim() !== finalImageUrl.trim()
+      ) {
+        try {
+          await deleteCloudinaryAssetByUrl(previousImageUrl);
+        } catch (deleteError) {
+          toast({
+            title: "Imagen anterior no eliminada",
+            description:
+              deleteError instanceof Error
+                ? deleteError.message
+                : "La imagen previa no pudo eliminarse de Cloudinary",
+            variant: "destructive",
+          });
+        }
       }
     } catch (mutationError) {
       console.error(mutationError);
