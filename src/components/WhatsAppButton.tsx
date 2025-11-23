@@ -11,13 +11,17 @@ export default function WhatsAppButton() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
 
-  // detect product slug if on a product page: /productos/:slug
   const pathParts = location.pathname.split("/").filter(Boolean);
+  const isAdminRoute = pathParts[0] === "admin";
+
+  // detect product slug if on a product page: /productos/:slug
   let productSlug: string | null = null;
   if (pathParts[0] === "productos" && pathParts[1]) {
     productSlug = pathParts[1];
   }
   const { data: product } = useProductQuery(productSlug ?? undefined);
+
+  if (isAdminRoute) return null;
 
   const productMessage = product
     ? `Hola! Estoy interesado en el producto *${product.name}* (ref: ${product.slug}). ¿Me podrían indicar precio y disponibilidad? Gracias.`

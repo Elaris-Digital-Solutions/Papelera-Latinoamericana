@@ -1,3 +1,4 @@
+import { deleteCloudinaryAssetByUrl } from "./cloudinary";
 import { supabaseClient } from "./supabaseClient";
 
 export interface CategoryRecord {
@@ -36,6 +37,18 @@ export interface ProductUpdateInput {
   codigo?: string | null;
   categoria_id?: string;
   imagen_url?: string | null;
+}
+
+export interface ProductCreateInput extends ProductUpdateInput {
+  nombre: string;
+  slug: string;
+}
+
+export interface ProductConflictRecord {
+  id: string;
+  nombre: string;
+  codigo: string | null;
+  slug: string;
 }
 
 const mapProduct = (record: ProductRecord): CatalogProduct => {
@@ -105,6 +118,17 @@ export const fetchCategories = async (): Promise<CategoryRecord[]> => {
   return data ?? [];
 };
 
+export const createProduct = async (payload: ProductCreateInput): Promise<CatalogProduct> => {
+  const { data, error } = await supabaseClient
+    .from("productos")
+    .insert([payload])
+    .select(productSelect)
+    .single();
+
+  if (error) throw error;
+  return mapProduct(data);
+};
+
 export const updateProduct = async (id: string, payload: ProductUpdateInput): Promise<CatalogProduct> => {
   const { data, error } = await supabaseClient
     .from("productos")
@@ -117,7 +141,44 @@ export const updateProduct = async (id: string, payload: ProductUpdateInput): Pr
   return mapProduct(data);
 };
 
-export const deleteProduct = async (id: string): Promise<void> => {
+export const deleteProduct = async (id: string, imageUrl?: string | null): Promise<void> => {
+  if (imageUrl) {
+    try {
+      await deleteCloudinaryAssetByUrl(imageUrl);
+    } catch (cloudinaryError) {
+      throw cloudinaryError instanceof Error
+        ? cloudinaryError
+        : new Error("No se pudo eliminar la imagen en Cloudinary");
+    }
+  }
+
   const { error } = await supabaseClient.from("productos").delete().eq("id", id);
   if (error) throw error;
+};
+
+export const findProductConflicts = async ({
+  code,
+  slug,
+  excludeId,
+}: {
+  code?: string | null;
+  slug: string;
+  excludeId?: string;
+}): Promise<ProductConflictRecord[]> => {
+  const normalizedSlug = slug.trim().toLowerCase();
+  const normalizedCode = code?.trim() ?? null;
+
+  const filters: string[] = [`slug.eq.${normalizedSlug}`];
+  if (normalizedCode) {
+    filters.push(`codigo.eq.${normalizedCode}`);
+  }
+
+  let query = supabaseClient.from("productos").select("id, nombre, codigo, slug");
+  if (excludeId) {
+    query = query.neq("id", excludeId);
+  }
+
+  const { data, error } = await query.or(filters.join(","));
+  if (error) throw error;
+  return (data ?? []) as ProductConflictRecord[];
 };

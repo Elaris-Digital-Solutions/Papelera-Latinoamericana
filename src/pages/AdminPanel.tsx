@@ -3,7 +3,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCategoriesQuery, useProductsQuery } from "@/hooks/useProducts";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { CatalogProduct, deleteProduct, updateProduct } from "@/services/products";
+import {
+  CatalogProduct,
+  ProductCreateInput,
+  ProductUpdateInput,
+  createProduct,
+  deleteProduct,
+  findProductConflicts,
+  updateProduct,
+} from "@/services/products";
+import { uploadProductImage } from "@/services/cloudinary";
+import { slugify } from "@/lib/utils";
 
 interface ProductFormState {
   name: string;
@@ -13,6 +23,8 @@ interface ProductFormState {
   categoryId: string;
   imageUrl: string;
 }
+
+type EditorMode = "create" | "edit" | null;
 
 const emptyFormState: ProductFormState = {
   name: "",
@@ -34,24 +46,27 @@ export default function AdminPanel() {
   const { user, signOut } = useAuth();
   const queryClient = useQueryClient();
   const [signingOut, setSigningOut] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<CatalogProduct | null>(null);
+  const [editorMode, setEditorMode] = useState<EditorMode>(null);
+  const [selectedProduct, setSelectedProduct] = useState<CatalogProduct | null>(null);
   const [formState, setFormState] = useState<ProductFormState>({ ...emptyFormState });
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  const resetEditor = () => {
+    setEditorMode(null);
+    setSelectedProduct(null);
+    setFormState({ ...emptyFormState });
+    setImageFile(null);
+  };
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: ProductFormState }) =>
-      updateProduct(id, {
-        nombre: updates.name.trim(),
-        codigo: updates.code.trim() || null,
-        presentacion: updates.presentation.trim() || null,
-        descripcion: updates.description.trim() || null,
-        categoria_id: updates.categoryId,
-        imagen_url: updates.imageUrl.trim() || null,
-      }),
+    mutationFn: ({ id, updates }: { id: string; updates: ProductUpdateInput }) =>
+      updateProduct(id, updates),
     onSuccess: () => {
       toast({ title: "Producto actualizado" });
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      setEditingProduct(null);
+      resetEditor();
     },
     onError: (mutationError) => {
       toast({
@@ -63,16 +78,34 @@ export default function AdminPanel() {
     },
   });
 
+  const createMutation = useMutation({
+    mutationFn: (payload: ProductCreateInput) => createProduct(payload),
+    onSuccess: () => {
+      toast({ title: "Producto creado" });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      resetEditor();
+    },
+    onError: (mutationError) => {
+      toast({
+        title: "No se pudo crear el producto",
+        description:
+          mutationError instanceof Error ? mutationError.message : "Inténtalo nuevamente",
+        variant: "destructive",
+      });
+    },
+  });
+
   const deleteMutation = useMutation({
-    mutationFn: ({ id }: { id: string }) => deleteProduct(id),
+    mutationFn: ({ id, imageUrl }: { id: string; imageUrl?: string | null }) =>
+      deleteProduct(id, imageUrl),
     onMutate: ({ id }) => {
       setPendingDeleteId(id);
     },
     onSuccess: (_data, { id }) => {
       toast({ title: "Producto eliminado" });
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      if (editingProduct?.id === id) {
-        setEditingProduct(null);
+      if (selectedProduct?.id === id) {
+        resetEditor();
       }
     },
     onError: (mutationError) => {
@@ -87,31 +120,43 @@ export default function AdminPanel() {
   });
 
   useEffect(() => {
-    if (!editingProduct) {
-      setFormState({ ...emptyFormState });
+    if (editorMode === "edit" && selectedProduct) {
+      setFormState({
+        name: selectedProduct.name,
+        code: selectedProduct.code ?? "",
+        presentation: selectedProduct.presentation ?? "",
+        description: selectedProduct.description ?? "",
+        categoryId: selectedProduct.category.id,
+        imageUrl: selectedProduct.imageUrl ?? "",
+      });
+      setImageFile(null);
       return;
     }
 
-    setFormState({
-      name: editingProduct.name,
-      code: editingProduct.code ?? "",
-      presentation: editingProduct.presentation ?? "",
-      description: editingProduct.description ?? "",
-      categoryId: editingProduct.category.id,
-      imageUrl: editingProduct.imageUrl ?? "",
-    });
-  }, [editingProduct]);
+    if (editorMode === "create") {
+      setFormState({ ...emptyFormState });
+      setImageFile(null);
+      return;
+    }
+
+    setFormState({ ...emptyFormState });
+    setImageFile(null);
+  }, [editorMode, selectedProduct]);
+
+  const generatedSlug = useMemo(() => slugify(formState.name), [formState.name]);
+  const isEditorOpen = editorMode !== null;
+  const isSaving = isUploadingImage || updateMutation.isPending || createMutation.isPending;
 
   const disableSave = useMemo(() => {
-    if (!editingProduct) return true;
+    if (!editorMode) return true;
     return (
       !formState.name.trim() ||
       !formState.categoryId ||
-      updateMutation.isPending ||
       categoriesLoading ||
-      Boolean(categoriesError)
+      Boolean(categoriesError) ||
+      isSaving
     );
-  }, [editingProduct, formState, updateMutation.isPending, categoriesLoading, categoriesError]);
+  }, [editorMode, formState, categoriesLoading, categoriesError, isSaving]);
 
   const handleSignOut = async () => {
     try {
@@ -129,6 +174,47 @@ export default function AdminPanel() {
     }
   };
 
+  const ensureNoConflicts = async (params: {
+    code: string | null;
+    slug: string;
+    excludeId?: string;
+  }) => {
+    try {
+      const conflicts = await findProductConflicts(params);
+      if (conflicts.length === 0) return true;
+
+      const trimmedCode = params.code ?? undefined;
+      const details = conflicts
+        .map((conflict) => {
+          const fields: string[] = [];
+          if (trimmedCode && conflict.codigo === trimmedCode) {
+            fields.push(`código ${conflict.codigo}`);
+          }
+          if (conflict.slug === params.slug) {
+            fields.push(`slug ${conflict.slug}`);
+          }
+          return `${conflict.nombre} (${fields.join(" y ") || "duplicado"})`;
+        })
+        .join(" • ");
+
+      toast({
+        title: "Conflicto detectado",
+        description:
+          details || "Ya existe un producto con el mismo código o slug. Ajusta los valores e inténtalo nuevamente.",
+        variant: "destructive",
+      });
+      return false;
+    } catch (conflictError) {
+      toast({
+        title: "No se pudo validar duplicados",
+        description:
+          conflictError instanceof Error ? conflictError.message : "Inténtalo nuevamente",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -136,11 +222,63 @@ export default function AdminPanel() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    setImageFile(file);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!editingProduct) return;
+    if (!editorMode) return;
 
-    updateMutation.mutate({ id: editingProduct.id, updates: formState });
+    const trimmedName = formState.name.trim();
+    const trimmedCode = formState.code.trim();
+    const slug = generatedSlug;
+
+    const conflictsOk = await ensureNoConflicts({
+      code: trimmedCode || null,
+      slug,
+      excludeId: editorMode === "edit" ? selectedProduct?.id : undefined,
+    });
+
+    if (!conflictsOk) return;
+
+    let finalImageUrl = formState.imageUrl.trim() || null;
+
+    if (imageFile) {
+      try {
+        setIsUploadingImage(true);
+        finalImageUrl = await uploadProductImage(imageFile);
+      } catch (uploadError) {
+        toast({
+          title: "No se pudo subir la imagen",
+          description: uploadError instanceof Error ? uploadError.message : "Inténtalo nuevamente",
+          variant: "destructive",
+        });
+        return;
+      } finally {
+        setIsUploadingImage(false);
+      }
+    }
+
+    const payload: ProductUpdateInput = {
+      nombre: trimmedName,
+      codigo: trimmedCode || null,
+      presentacion: formState.presentation.trim() || null,
+      descripcion: formState.description.trim() || null,
+      categoria_id: formState.categoryId,
+      imagen_url: finalImageUrl,
+    };
+
+    try {
+      if (editorMode === "create") {
+        await createMutation.mutateAsync({ ...payload, slug });
+      } else if (selectedProduct) {
+        await updateMutation.mutateAsync({ id: selectedProduct.id, updates: payload });
+      }
+    } catch (mutationError) {
+      console.error(mutationError);
+    }
   };
 
   const handleDelete = (product: CatalogProduct) => {
@@ -148,12 +286,22 @@ export default function AdminPanel() {
       `¿Seguro que deseas eliminar "${product.name}"? Esta acción no se puede deshacer.`
     );
     if (!confirmed) return;
-    deleteMutation.mutate({ id: product.id });
+    deleteMutation.mutate({ id: product.id, imageUrl: product.imageUrl });
+  };
+
+  const openCreateModal = () => {
+    setEditorMode("create");
+    setSelectedProduct(null);
+  };
+
+  const openEditModal = (product: CatalogProduct) => {
+    setEditorMode("edit");
+    setSelectedProduct(product);
   };
 
   const closeEditor = () => {
-    if (updateMutation.isPending) return;
-    setEditingProduct(null);
+    if (isSaving) return;
+    resetEditor();
   };
 
   const renderStatus = () => {
@@ -223,12 +371,10 @@ export default function AdminPanel() {
             <td className="px-4 py-2 whitespace-nowrap">
               <button
                 className="bg-blue-600 text-white px-3 py-1 rounded mr-2 hover:bg-blue-700 transition disabled:opacity-50"
-                onClick={() => setEditingProduct(prod)}
-                disabled={updateMutation.isPending && editingProduct?.id === prod.id}
+                onClick={() => openEditModal(prod)}
+                disabled={isSaving && selectedProduct?.id === prod.id}
               >
-                {updateMutation.isPending && editingProduct?.id === prod.id
-                  ? "Guardando..."
-                  : "Editar"}
+                {isSaving && selectedProduct?.id === prod.id ? "Guardando..." : "Editar"}
               </button>
               <button
                 className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition disabled:opacity-50"
@@ -256,13 +402,21 @@ export default function AdminPanel() {
               Sesión iniciada como <span className="font-semibold">{user?.email ?? "Administrador"}</span>
             </p>
           </div>
-          <button
-            onClick={handleSignOut}
-            disabled={signingOut}
-            className="self-start inline-flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition disabled:opacity-60"
-          >
-            {signingOut ? "Cerrando sesión..." : "Cerrar sesión"}
-          </button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button
+              onClick={openCreateModal}
+              className="inline-flex items-center justify-center rounded-md bg-green-600 px-4 py-2 font-semibold text-white shadow hover:bg-green-700"
+            >
+              Añadir producto
+            </button>
+            <button
+              onClick={handleSignOut}
+              disabled={signingOut}
+              className="inline-flex items-center gap-2 rounded-md bg-blue-700 px-4 py-2 text-white hover:bg-blue-800 transition disabled:opacity-60"
+            >
+              {signingOut ? "Cerrando sesión..." : "Cerrar sesión"}
+            </button>
+          </div>
         </div>
       </header>
       <main className="px-8 pb-12">
@@ -289,18 +443,25 @@ export default function AdminPanel() {
           </table>
         </div>
       </main>
-      {editingProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 px-4">
-          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl">
+      {isEditorOpen && (
+        <div className="fixed inset-0 z-50 overflow-auto flex items-center justify-center bg-slate-900/70 px-4">
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="flex items-center justify-between border-b pb-4">
               <div>
-                <h3 className="text-xl font-semibold text-slate-900">Editar producto</h3>
-                <p className="text-sm text-slate-500">{editingProduct.name}</p>
+                <h3 className="text-xl font-semibold text-slate-900">
+                  {editorMode === "create" ? "Agregar producto" : "Editar producto"}
+                </h3>
+                <p className="text-sm text-slate-500">
+                  {editorMode === "create"
+                    ? "Completa los campos para registrar un nuevo producto"
+                    : selectedProduct?.name}
+                </p>
+                <p className="text-xs text-slate-400">Slug generado: {generatedSlug}</p>
               </div>
               <button
                 onClick={closeEditor}
                 className="text-slate-500 hover:text-slate-800"
-                disabled={updateMutation.isPending}
+                disabled={isSaving}
               >
                 ×
               </button>
@@ -378,24 +539,45 @@ export default function AdminPanel() {
                 />
               </label>
 
-              <label className="block text-sm font-medium text-slate-700">
-                URL de imagen
-                <input
-                  type="url"
-                  name="imageUrl"
-                  value={formState.imageUrl}
-                  onChange={handleInputChange}
-                  className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                  placeholder="https://"
-                />
-              </label>
+              <div className="space-y-2 text-sm">
+                <p className="font-medium text-slate-700">Imagen</p>
+                <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-600">
+                  {formState.imageUrl ? (
+                    <a
+                      href={formState.imageUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      Ver imagen actual
+                    </a>
+                  ) : (
+                    <span>Sin imagen registrada</span>
+                  )}
+                </div>
+                <label className="block text-slate-600">
+                  Adjuntar nueva imagen
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="mt-1 w-full rounded-md border border-dashed border-slate-300 px-3 py-2 text-sm"
+                  />
+                </label>
+                <p className="text-xs text-slate-500">
+                  La imagen solo se subirá a Cloudinary (carpeta PALASAC) cuando confirmes el guardado.
+                </p>
+                {imageFile && (
+                  <p className="text-xs text-slate-500">Archivo seleccionado: {imageFile.name}</p>
+                )}
+              </div>
 
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={closeEditor}
                   className="rounded-md border border-slate-300 px-4 py-2 text-slate-600 hover:bg-slate-50"
-                  disabled={updateMutation.isPending}
+                  disabled={isSaving}
                 >
                   Cancelar
                 </button>
@@ -404,7 +586,7 @@ export default function AdminPanel() {
                   className="rounded-md bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
                   disabled={disableSave}
                 >
-                  {updateMutation.isPending ? "Guardando..." : "Guardar"}
+                  {isSaving ? "Guardando..." : "Guardar"}
                 </button>
               </div>
             </form>
